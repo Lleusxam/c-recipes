@@ -11,6 +11,7 @@ void menu_principal() {
 }
 
 void menu_receitas() {
+    char opt;
     printf("=============================\n");
     printf("        MENU RECEITAS        \n");
     printf("=============================\n");
@@ -20,9 +21,17 @@ void menu_receitas() {
     printf("|   4. Atualizar receita    |\n");
     printf("|   5. Pesquisar receita    |\n");
     printf("=============================\n");
+    printf("\n");
+    printf("Escolha sua opcao: ");
+    scanf("%c", &opt);
+    getchar();
+    printf("\n");
+    printf("Pressione ENTER para continuar...");
+    getchar();
 }
 
 void menu_autores() {
+    char opt;
     printf("=============================\n");
     printf("        MENU AUTORES         \n");
     printf("=============================\n");
@@ -32,9 +41,17 @@ void menu_autores() {
     printf("|   4. Atualizar autor      |\n");
     printf("|   5. Pesquisar autor      |\n");
     printf("=============================\n");
+    printf("\n");
+    printf("Escolha sua opcao: ");
+    scanf("%c", &opt);
+    getchar();
+    printf("\n");
+    printf("Pressione ENTER para continuar...");
+    getchar();
 }
 
 void menu_cardapio() {
+    char opt;
     printf("=============================\n");
     printf("        MENU CARDAPIO         \n");
     printf("=============================\n");
@@ -44,6 +61,13 @@ void menu_cardapio() {
     printf("|   4. Atualizar cardapio    |\n");
     printf("|   5. Pesquisar cardapio    |\n");
     printf("=============================\n");
+    printf("\n");
+    printf("Escolha sua opcao: ");
+    scanf("%c", &opt);
+    getchar();
+    printf("\n");
+    printf("Pressione ENTER para continuar...");
+    getchar();
 }
 
 void sobre() {
