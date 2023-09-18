@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "cardapio.h": "c",
+        "receitas.h": "c"
+    }
+}

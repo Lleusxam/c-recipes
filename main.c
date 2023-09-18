@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "receitas.h"
+#include "autores.h"
+#include "cardapio.h"
 
-    char menu_principal() {
+char menu_principal() {
     char opt;
     printf("=============================\n");
     printf("        MENU PRINCIPAL       \n");
@@ -20,71 +24,7 @@
     return opt;
 }
 
-char menu_receitas() {
-    char opt;
-    printf("=============================\n");
-    printf("        MENU RECEITAS        \n");
-    printf("=============================\n");
-    printf("|   1. Cadastrar receita    |\n");
-    printf("|   2. Editar receita       |\n");
-    printf("|   3. Deletar receita      |\n");
-    printf("|   4. Atualizar receita    |\n");
-    printf("|   5. Pesquisar receita    |\n");
-    printf("|   0. Retornar             |\n");
-    printf("=============================\n");
-    printf("\n");
-    printf("Escolha sua opcao: ");
-    scanf("%c", &opt);
-    getchar();
-    printf("\n");
-    printf("Pressione ENTER para continuar...");
-    getchar();
-    return opt;
-}
 
-char menu_autores() {
-    char opt;
-    printf("=============================\n");
-    printf("        MENU AUTORES         \n");
-    printf("=============================\n");
-    printf("|   1. Cadastrar autor      |\n");
-    printf("|   2. Editar autor         |\n");
-    printf("|   3. Deletar autor        |\n");
-    printf("|   4. Atualizar autor      |\n");
-    printf("|   5. Pesquisar autor      |\n");
-    printf("|   0. Retornar             |\n");
-    printf("=============================\n");
-    printf("\n");
-    printf("Escolha sua opcao: ");
-    scanf("%c", &opt);
-    getchar();
-    printf("\n");
-    printf("Pressione ENTER para continuar...");
-    getchar();
-    return opt;
-}
-
-char menu_cardapio() {
-    char opt;
-    printf("=============================\n");
-    printf("        MENU CARDAPIO         \n");
-    printf("=============================\n");
-    printf("|   1. Cadastrar cardapio    |\n");
-    printf("|   2. Editar cardapio       |\n");
-    printf("|   3. Deletar cardapio      |\n");
-    printf("|   4. Atualizar cardapio    |\n");
-    printf("|   5. Pesquisar cardapio    |\n");
-    printf("|   0. Retornar             |\n");
-    printf("=============================\n");
-    printf("\n");
-    printf("Escolha sua opcao: ");
-    scanf("%c", &opt);
-    getchar();
-    printf("\n");
-    printf("Pressione ENTER para continuar...");
-    getchar();
-    return opt;
-}
 
 void sobre() {
     printf("\nO CRecipes é um projeto educacional feito em linguagem C com o intuito de funcionar como um caderno de receitas\n");
@@ -176,6 +116,7 @@ int main(){
                         break;
                     default:
                         printf("Opcao invalida");
+                break;
                 }
             case '0':
                 printf("Finalizando o programa...\n");
