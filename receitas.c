@@ -20,3 +20,38 @@ char menu_receitas() {
     getchar();
     return opt;
 }
+
+void cadastrar_receita() {
+    printf("=============================\n");
+    printf("      CADASTRAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void editar_receita() {
+    printf("=============================\n");
+    printf("        EDITAR RECEITA       \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void deletar_receita() {
+    printf("=============================\n");
+    printf("       DELETAR RECEITA       \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void atualizar_receita() {
+    printf("=============================\n");
+    printf("      ATUALIZAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void pesquisar_receita() {
+    printf("=============================\n");
+    printf("      PESQUISAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+}

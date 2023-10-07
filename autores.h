@@ -1,7 +1,6 @@
-#ifndef AUTORES_H
-#define AUTORES_H
-
-
 char menu_autores();
-
-#endif 
+void cadastrar_autor();
+void editar_autor();
+void deletar_autor();
+void atualizar_autor();
+void pesquisar_autor();

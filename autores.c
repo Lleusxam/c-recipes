@@ -20,3 +20,38 @@ char menu_autores() {
     getchar();
     return opt;
 }
+
+void cadastrar_autor() {
+    printf("=============================\n");
+    printf("      CADASTRAR AUTOR        \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void editar_autor() {
+    printf("=============================\n");
+    printf("      EDITAR AUTOR           \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void deletar_autor() {
+    printf("=============================\n");
+    printf("      DELETAR AUTOR          \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void atualizar_autor() {
+    printf("=============================\n");
+    printf("      ATUALIZAR AUTOR        \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void pesquisar_autor() {
+    printf("=============================\n");
+    printf("      PESQUISAR AUTOR        \n");
+    printf("=============================\n");
+    printf("\n");
+}

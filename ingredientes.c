@@ -19,3 +19,38 @@ char menu_ingredientes() {
     getchar();
     return opt;
 }
+
+void cadastrar_ingrediente() {
+    printf("=============================\n");
+    printf("     CADASTRAR INGREDIENTE   \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void editar_ingrediente() {
+    printf("=============================\n");
+    printf("       EDITAR INGREDIENTE    \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void deletar_ingrediente() {
+    printf("=============================\n");
+    printf("      DELETAR INGREDIENTE    \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void atualizar_ingrediente() {
+    printf("=============================\n");
+    printf("     ATUALIZAR INGREDIENTE   \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void pesquisar_ingrediente() {
+    printf("=============================\n");
+    printf("     PESQUISAR INGREDIENTE   \n");
+    printf("=============================\n");
+    printf("\n");
+}

@@ -20,3 +20,38 @@ char menu_cardapio() {
     getchar();
     return opt;
 }
+
+void cadastrar_cardapio() {
+    printf("=============================\n");
+    printf("      CADASTRAR CARDAPIO     \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void editar_cardapio() {
+    printf("=============================\n");
+    printf("        EDITAR CARDAPIO      \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void deletar_cardapio() {
+    printf("=============================\n");
+    printf("       DELETAR CARDAPIO      \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void atualizar_cardapio() {
+    printf("=============================\n");
+    printf("      ATUALIZAR CARDAPIO     \n");
+    printf("=============================\n");
+    printf("\n");
+}
+
+void pesquisar_cardapio() {
+    printf("=============================\n");
+    printf("      PESQUISAR CARDAPIO     \n");
+    printf("=============================\n");
+    printf("\n");
+}

@@ -49,24 +49,19 @@ int main(){
                 opt1 = menu_receitas();
                 switch(opt1) {
                     case '1':
-                        printf("Cadastrar receita\n");
-                        printf("EM CONSTRUCAO\n");
+                        cadastrar_receita();
                         break;
                     case '2':
-                        printf("Editar receita\n");
-                        printf("EM CONSTRUCAO\n");
+                        editar_receita();
                         break;
                     case '3':
-                        printf("Deletar receita\n");
-                        printf("EM CONSTRUCAO\n");
+                        deletar_receita();
                         break;
                     case '4':
-                        printf("Atualizar receita\n");
-                        printf("EM CONSTRUCAO\n");
+                        atualizar_receita();
                         break;
                     case '5':
-                        printf("Pesquisar receita\n");
-                        printf("EM CONSTRUCAO\n");
+                        pesquisar_receita();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -79,24 +74,19 @@ int main(){
                 opt1 = menu_autores();
                 switch(opt1) {
                     case '1':
-                        printf("Cadastrar autor\n");
-                        printf("EM CONSTRUCAO\n");
+                        cadastrar_autor();
                         break;
                     case '2':
-                        printf("Editar autor\n");
-                        printf("EM CONSTRUCAO\n");
+                        editar_autor();
                         break;
                     case '3':
-                        printf("Deletar autor\n");
-                        printf("EM CONSTRUCAO\n");
+                        deletar_autor();
                         break;
                     case '4':
-                        printf("Atualizar autor\n");
-                        printf("EM CONSTRUCAO\n");
+                        atualizar_autor();
                         break;
                     case '5':
-                        printf("Pesquisar autor\n");
-                        printf("EM CONSTRUCAO\n");
+                        pesquisar_autor();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -109,24 +99,19 @@ int main(){
                 opt1 = menu_cardapio();
                 switch(opt1) {
                     case '1':
-                        printf("Cadastrar cardapio\n");
-                        printf("EM CONSTRUCAO\n");
+                        cadastrar_cardapio();
                         break;
                     case '2':
-                        printf("Editar cardapio\n");
-                        printf("EM CONSTRUCAO\n");
+                        editar_cardapio();
                         break;
                     case '3':
-                        printf("Deletar cardapio\n");
-                        printf("EM CONSTRUCAO\n");
+                        deletar_cardapio();
                         break;
                     case '4':
-                        printf("Atualizar cardapio\n");
-                        printf("EM CONSTRUCAO\n");
+                        atualizar_cardapio();
                         break;
                     case '5':
-                        printf("Pesquisar cardapio\n");
-                        printf("EM CONSTRUCAO\n");
+                        pesquisar_cardapio();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -140,24 +125,19 @@ int main(){
                 opt1 = menu_ingredientes();
                 switch(opt1) {
                     case '1':
-                        printf("Cadastrar ingrediente\n");
-                        printf("EM CONSTRUCAO\n");
+                       cadastrar_ingrediente();
                         break;
                     case '2':
-                        printf("Editar ingrediente\n");
-                        printf("EM CONSTRUCAO\n");
+                        editar_ingrediente();
                         break;
                     case '3':
-                        printf("Deletar ingrediente\n");
-                        printf("EM CONSTRUCAO\n");
+                        deletar_ingrediente();
                         break;
                     case '4':
-                        printf("Atualizar ingrediente\n");
-                        printf("EM CONSTRUCAO\n");
+                        atualizar_ingrediente();
                         break;
                     case '5':
-                        printf("Pesquisar ingrediente\n");
-                        printf("EM CONSTRUCAO\n");
+                        pesquisar_ingrediente();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");

@@ -1,7 +1,6 @@
-#ifndef INGREDIENTE_H
-#define INGREDIENTE_H
-
-
 char menu_ingredientes();
-
-#endif 
+void cadastrar_ingrediente();
+void editar_ingrediente();
+void deletar_ingrediente();
+void atualizar_ingrediente();
+void pesquisar_ingrediente();
