@@ -36,6 +36,8 @@ void sobre() {
 }
 
 int main(){
+    struct Receita receitas[100];
+    int quantidade_receitas = 0;
     char opt, opt1;
     sobre();
     
@@ -49,10 +51,10 @@ int main(){
                 opt1 = menu_receitas();
                 switch(opt1) {
                     case '1':
-                        cadastrar_receita();
+                        cadastrar_receita(receitas, &quantidade_receitas);
                         break;
                     case '2':
-                        editar_receita();
+                        editar_receita(receitas, &quantidade_receitas);
                         break;
                     case '3':
                         deletar_receita();

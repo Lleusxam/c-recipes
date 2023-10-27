@@ -2,7 +2,7 @@
 char menu_ingredientes() {
     char opt;
     printf("=============================\n");
-    printf("        MENU INGREDIENTES    \n");
+    printf("       MENU INGREDIENTES     \n");
     printf("=============================\n");
     printf("|   1. Cadastrar ingrediente|\n");
     printf("|   2. Editar ingrediente   |\n");
