@@ -10,6 +10,7 @@
 *.ko
 *.obj
 *.elf
+*.bat
 
 # Linker output
 *.ilk

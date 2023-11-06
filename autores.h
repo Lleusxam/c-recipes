@@ -9,4 +9,4 @@ struct Autor {
     int id;
     char nome[50];
     char telefone[15];
-}
+};

@@ -7,8 +7,7 @@ char menu_cardapio() {
     printf("|   1. Cadastrar cardapio    |\n");
     printf("|   2. Editar cardapio       |\n");
     printf("|   3. Deletar cardapio      |\n");
-    printf("|   4. Atualizar cardapio    |\n");
-    printf("|   5. Pesquisar cardapio    |\n");
+    printf("|   4. Pesquisar cardapio    |\n");
     printf("|   0. Retornar             |\n");
     printf("=============================\n");
     printf("\n");

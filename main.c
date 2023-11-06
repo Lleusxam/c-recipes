@@ -27,7 +27,6 @@ char menu_principal() {
 }
 
 
-
 void sobre() {
     printf("\nO CRecipes é um projeto educacional feito em linguagem C com o intuito de funcionar como um caderno de receitas\n");
     printf("Desenvolvedor: Maxsuel Gadelha O. da Silva\n");
@@ -36,14 +35,14 @@ void sobre() {
 }
 
 int main(){
-    struct Receita receitas[100];
+    Receita receitas[100];
     int quantidade_receitas = 0;
     char opt, opt1;
     sobre();
     
     printf("\nPressione ENTER para continuar...");
     getchar();
-
+    
     do {
         opt = menu_principal();
         switch(opt) {
@@ -54,16 +53,13 @@ int main(){
                         cadastrar_receita(receitas, &quantidade_receitas);
                         break;
                     case '2':
-                        editar_receita(receitas, &quantidade_receitas);
+                        editar_receita(receitas, quantidade_receitas);
                         break;
                     case '3':
-                        deletar_receita();
+                        deletar_receita(receitas, quantidade_receitas);
                         break;
                     case '4':
-                        atualizar_receita();
-                        break;
-                    case '5':
-                        pesquisar_receita();
+                        pesquisar_receita(receitas, quantidade_receitas);
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -85,9 +81,6 @@ int main(){
                         deletar_autor();
                         break;
                     case '4':
-                        atualizar_autor();
-                        break;
-                    case '5':
                         pesquisar_autor();
                         break;
                     case '0':
@@ -110,9 +103,6 @@ int main(){
                         deletar_cardapio();
                         break;
                     case '4':
-                        atualizar_cardapio();
-                        break;
-                    case '5':
                         pesquisar_cardapio();
                         break;
                     case '0':
@@ -136,9 +126,6 @@ int main(){
                         deletar_ingrediente();
                         break;
                     case '4':
-                        atualizar_ingrediente();
-                        break;
-                    case '5':
                         pesquisar_ingrediente();
                         break;
                     case '0':

@@ -7,8 +7,7 @@ char menu_ingredientes() {
     printf("|   1. Cadastrar ingrediente|\n");
     printf("|   2. Editar ingrediente   |\n");
     printf("|   3. Deletar ingrediente  |\n");
-    printf("|   4. Atualizar ingrediente|\n");
-    printf("|   5. Pesquisar ingrediente|\n");
+    printf("|   4. Pesquisar ingrediente|\n");
     printf("|   0. Retornar             |\n");
     printf("=============================\n");
     printf("Escolha sua opcao: ");
