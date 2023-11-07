@@ -37,6 +37,8 @@ void sobre() {
 int main(){
     Receita receitas[100];
     int quantidade_receitas = 0;
+    Autor autores[100];
+    int quantidade_autores = 0;
     char opt, opt1;
     sobre();
     
@@ -72,16 +74,16 @@ int main(){
                 opt1 = menu_autores();
                 switch(opt1) {
                     case '1':
-                        cadastrar_autor();
+                        cadastrar_autor(autores, &quantidade_autores);
                         break;
                     case '2':
-                        editar_autor();
+                        editar_autor(autores, quantidade_autores);
                         break;
                     case '3':
                         deletar_autor();
                         break;
                     case '4':
-                        pesquisar_autor();
+                        pesquisar_autor(autores, quantidade_autores);
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
