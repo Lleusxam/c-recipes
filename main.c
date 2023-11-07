@@ -39,6 +39,8 @@ int main(){
     int quantidade_receitas = 0;
     Autor autores[100];
     int quantidade_autores = 0;
+    Cardapio cardapios[100];
+    int quantidade_cardapios = 0;
     char opt, opt1;
     sobre();
     
@@ -96,25 +98,24 @@ int main(){
                 opt1 = menu_cardapio();
                 switch(opt1) {
                     case '1':
-                        cadastrar_cardapio();
+                        cadastrar_cardapio(cardapios, &quantidade_cardapios);
                         break;
                     case '2':
-                        editar_cardapio();
+                        editar_cardapio(cardapios, quantidade_cardapios);
                         break;
                     case '3':
-                        deletar_cardapio();
+                        deletar_cardapio(cardapios, quantidade_cardapios);
                         break;
                     case '4':
-                        pesquisar_cardapio();
+                        pesquisar_cardapio(cardapios, quantidade_cardapios);
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
-                        printf("EM CONSTRUCAO\n");
                         break;
                     default:
                         printf("Opcao invalida\n");
-                break;
                 }
+                break;
             case '4':
                 opt1 = menu_ingredientes();
                 switch(opt1) {
