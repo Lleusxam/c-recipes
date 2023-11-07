@@ -38,16 +38,19 @@ void cadastrar_receita(Receita receitas[], int *quantidade_receitas) {
     Receita nova_receita;
     printf("Nome da receita: ");
     fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
 
     printf("Descricao da receita: ");
     fgets(descricao, sizeof(descricao), stdin);
-
+    descricao[strlen(descricao) - 1] = 0; 
+    
     printf("Porcoes da receita: ");
     scanf("%d", &porcoes);
     getchar();
 
     printf("Categoria da receita: ");
     fgets(categoria, sizeof(categoria), stdin);
+    categoria[strlen(categoria) - 1] = 0;
 
 
     // Adicionando a receita na array de receitas
@@ -102,9 +105,12 @@ void editar_receita(Receita receitas[], int quantidade_receitas) {
     printf("Digite as novas informações para a receita (ID: %d):\n", id);
     printf("Novo nome da receita: ");
     fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
 
     printf("Nova descricao da receita: ");
     fgets(descricao, sizeof(descricao), stdin);
+    descricao[strlen(descricao) - 1] = 0;
+
 
     printf("Nova quantidade de porcoes da receita: ");
     scanf("%d", &porcoes);
@@ -112,6 +118,7 @@ void editar_receita(Receita receitas[], int quantidade_receitas) {
 
     printf("Nova categoria da receita: ");
     fgets(categoria, sizeof(categoria), stdin);
+    categoria[strlen(categoria) - 1] = 0;
 
     // Atualizando a receita na array de receitas
     receitas[index].id = id;
@@ -157,18 +164,20 @@ void pesquisar_receita(Receita receitas[], int quantidade_receitas) {
     scanf("%d", &id);
     getchar();
 
+    int index = id - 1;
+
     // Procura a receita com o ID especificado
-    for (int i = 0; i < quantidade_receitas; i++) {
-        if (receitas[i].id == id) {
-            printf("Informações da Receita:\n");
-            printf("ID: %d\n", receitas[i].id);
-            printf("Nome: %s\n", receitas[i].nome);
-            printf("Descrição: %s\n", receitas[i].descricao);
-            printf("Porções: %d\n", receitas[i].porcoes);
-            printf("Categoria: %s\n", receitas[i].categoria);
-            printf("Status: %d\n", receitas[i].status);
-            return; 
-        }
+    int encontrada = existe_receita(receitas, quantidade_receitas, id);
+    if(encontrada == 0) {
+        printf("\nReceita não encontrada!\n");
+        return;
     }
-    printf("Receita com ID %d não encontrada.\n", id);
+
+    printf("Informações da Receita:\n");
+    printf("ID: %d\n", receitas[index].id);
+    printf("Nome: %s\n", receitas[index].nome);
+    printf("Descricao: %s\n", receitas[index].descricao);
+    printf("Porcoes: %d\n", receitas[index].porcoes);
+    printf("Categoria: %s\n", receitas[index].categoria);
+    printf("Status: %d\n", receitas[index].status);
 }
