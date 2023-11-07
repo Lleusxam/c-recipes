@@ -135,7 +135,7 @@ void pesquisar_autor(Autor autores[], int quantidade_autores) {
         printf("\nAutor não encontrado!\n");
         return;
     }
-
+    printf("\n");
     printf("Informações do Autor:\n");
     printf("ID: %d\n", autores[index].id);
     printf("Nome: %s\n", autores[index].nome);

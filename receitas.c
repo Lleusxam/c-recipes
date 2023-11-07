@@ -121,7 +121,6 @@ void editar_receita(Receita receitas[], int quantidade_receitas) {
     categoria[strlen(categoria) - 1] = 0;
 
     // Atualizando a receita na array de receitas
-    receitas[index].id = id;
     strncpy(receitas[index].nome, nome, sizeof(receitas[index].nome));
     strncpy(receitas[index].descricao, descricao, sizeof(receitas[index].descricao));
     receitas[index].porcoes = porcoes;
@@ -172,7 +171,7 @@ void pesquisar_receita(Receita receitas[], int quantidade_receitas) {
         printf("\nReceita não encontrada!\n");
         return;
     }
-
+    printf("\n");
     printf("Informações da Receita:\n");
     printf("ID: %d\n", receitas[index].id);
     printf("Nome: %s\n", receitas[index].nome);
