@@ -63,7 +63,7 @@ int main(){
                         deletar_receita(receitas, quantidade_receitas);
                         break;
                     case '4':
-                        pesquisar_receita(receitas, quantidade_receitas);
+                        pesquisar_receita(receitas, quantidade_receitas, autores, quantidade_autores);
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -82,7 +82,7 @@ int main(){
                         editar_autor(autores, quantidade_autores);
                         break;
                     case '3':
-                        deletar_autor();
+                        deletar_autor(autores, quantidade_autores);
                         break;
                     case '4':
                         pesquisar_autor(autores, quantidade_autores);
@@ -107,7 +107,7 @@ int main(){
                         deletar_cardapio(cardapios, quantidade_cardapios);
                         break;
                     case '4':
-                        pesquisar_cardapio(cardapios, quantidade_cardapios);
+                        pesquisar_cardapio(cardapios, quantidade_cardapios, receitas, quantidade_receitas);
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");

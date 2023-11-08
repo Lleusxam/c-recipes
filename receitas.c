@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "receitas.h"
+#include "autores.h"
 #include <string.h>
 #include <stdlib.h>
 static int ultimo_id = 0;
@@ -35,6 +36,7 @@ void cadastrar_receita(Receita receitas[], int *quantidade_receitas) {
     char descricao[500];
     int porcoes;
     char categoria[50];
+    int id_autor;
     Receita nova_receita;
     printf("Nome da receita: ");
     fgets(nome, sizeof(nome), stdin);
@@ -52,6 +54,10 @@ void cadastrar_receita(Receita receitas[], int *quantidade_receitas) {
     fgets(categoria, sizeof(categoria), stdin);
     categoria[strlen(categoria) - 1] = 0;
 
+    printf("Digite o ID do autor da receita: ");
+    scanf("%d", &id_autor);
+    getchar();
+
 
     // Adicionando a receita na array de receitas
     nova_receita.id = *quantidade_receitas + 1; // Atribua o ID com base no tamanho atual do vetor
@@ -59,6 +65,7 @@ void cadastrar_receita(Receita receitas[], int *quantidade_receitas) {
     strncpy(nova_receita.descricao, descricao, sizeof(nova_receita.descricao));
     nova_receita.porcoes = porcoes;
     strncpy(nova_receita.categoria, categoria, sizeof(nova_receita.categoria));
+    nova_receita.id_autor = id_autor;
     nova_receita.status = 1;
 
     receitas[*quantidade_receitas] = nova_receita;
@@ -85,6 +92,7 @@ void editar_receita(Receita receitas[], int quantidade_receitas) {
     char descricao[500];
     int porcoes;
     char categoria[50];
+    int autor_id;
     Receita nova_receita;
     printf("Digite o ID da receita que deseja editar: ");
     scanf("%d", &id);
@@ -120,11 +128,16 @@ void editar_receita(Receita receitas[], int quantidade_receitas) {
     fgets(categoria, sizeof(categoria), stdin);
     categoria[strlen(categoria) - 1] = 0;
 
+    printf("Digite o ID do novo autor da receita: ");
+    scanf("%d", &autor_id);
+    getchar();
+
     // Atualizando a receita na array de receitas
     strncpy(receitas[index].nome, nome, sizeof(receitas[index].nome));
     strncpy(receitas[index].descricao, descricao, sizeof(receitas[index].descricao));
     receitas[index].porcoes = porcoes;
     strncpy(receitas[index].categoria, categoria, sizeof(receitas[index].categoria));
+    receitas[index].id_autor = autor_id;
     receitas[index].status = 1;
 
     printf("\nReceita editada com sucesso!\n");
@@ -152,7 +165,7 @@ void deletar_receita(Receita receitas[], int quantidade_receitas) {
 
 }
 
-void pesquisar_receita(Receita receitas[], int quantidade_receitas) {
+void pesquisar_receita(Receita receitas[], int quantidade_receitas, Autor autores[], int quantidade_autores) {
     int id;
     printf("=============================\n");
     printf("      PESQUISAR RECEITA      \n");
@@ -179,4 +192,5 @@ void pesquisar_receita(Receita receitas[], int quantidade_receitas) {
     printf("Porcoes: %d\n", receitas[index].porcoes);
     printf("Categoria: %s\n", receitas[index].categoria);
     printf("Status: %d\n", receitas[index].status);
+    printf("Autor: %s\n", autores[receitas[index].id_autor - 1].nome);
 }

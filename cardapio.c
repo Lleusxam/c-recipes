@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "cardapio.h"
+#include "receitas.h"
 #include <string.h>
 #include <stdlib.h>
 char menu_cardapio() {
@@ -37,37 +38,39 @@ void cadastrar_cardapio(Cardapio cardapios[], int *quantidade_cardapios) {
     printf("      CADASTRAR CARDAPIO     \n");
     printf("=============================\n");
     printf("\n");
-    char entrada[100];
-    char prato_principal[100];
-    char sobremesa[100];
     Cardapio novo_cardapio;
-    printf("Entrada: ");
-    fgets(entrada, sizeof(entrada), stdin);
-    entrada[strlen(entrada) - 1] = 0; // Remove o \n do final da string
-
-    printf("Prato Principal: ");
-    fgets(prato_principal, sizeof(prato_principal), stdin);
-    prato_principal[strlen(prato_principal) - 1] = 0;
-
-    printf("Sobremesa: ");
-    fgets(sobremesa, sizeof(sobremesa), stdin);
-    sobremesa[strlen(sobremesa) - 1] = 0;
-
-    // Adicionando o cardapio na array de cardapios
-    novo_cardapio.id = *quantidade_cardapios + 1; // Atribua o ID com base no tamanho atual do vetor
-    strncpy(novo_cardapio.entrada, entrada, sizeof(novo_cardapio.entrada));
-    strncpy(novo_cardapio.prato_principal, prato_principal, sizeof(novo_cardapio.prato_principal));
-    strncpy(novo_cardapio.sobremesa, sobremesa, sizeof(novo_cardapio.sobremesa));
-    novo_cardapio.status = 1;
+    int entrada;
+    int prato_principal;
+    int sobremesa;
+    printf("Digite o ID da receita que será a Entrada ");
+    scanf("%d", &entrada);
+    getchar();
     
+    printf("Digite o ID da receita que será o Prato Principal ");
+    scanf("%d", &prato_principal);
+    getchar();
+    
+    printf("Digite o ID da receita que será a Sobremesa ");
+    scanf("%d", &sobremesa);
+    getchar();
+
+    cardapios[*quantidade_cardapios].status = 1;
+
+    novo_cardapio.id = *quantidade_cardapios + 1;
+    novo_cardapio.entrada = entrada;
+    novo_cardapio.prato_principal = prato_principal;
+    novo_cardapio.sobremesa = sobremesa;
+    novo_cardapio.status = 1;
     cardapios[*quantidade_cardapios] = novo_cardapio;
     (*quantidade_cardapios)++;
+
+    printf("\nCardapio cadastrado com sucesso!\n");
 }
 void editar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
     int id;
-    char entrada[100];
-    char prato_principal[100];
-    char sobremesa[100];
+    int entrada;
+    int prato_principal;
+    int sobremesa;
     printf("=============================\n");
     printf("        EDITAR CARDAPIO      \n");
     printf("=============================\n");
@@ -82,28 +85,24 @@ void editar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
         printf("\nCardapio não encontrado!\n");
         return;
     }
-    
-    printf("Digite as novas informações para o cardápio (ID: %d):\n", id);
-    printf("Nova entrada: ");
-    fgets(entrada, sizeof(entrada), stdin);
-    entrada[strlen(entrada) - 1] = 0; // Remove o \n do final da string
 
-    printf("Novo prato principal: ");
-    fgets(prato_principal, sizeof(prato_principal), stdin);
-    prato_principal[strlen(prato_principal) - 1] = 0;
+    printf("Digite o ID da receita que será a Entrada ");
+    scanf("%d", &entrada);
+    getchar();
 
-    printf("Nova sobremesa: ");
-    fgets(sobremesa, sizeof(sobremesa), stdin);
-    sobremesa[strlen(sobremesa) - 1] = 0;
+    printf("Digite o ID da receita que será o Prato Principal ");
+    scanf("%d", &prato_principal);
+    getchar();
 
-    // Atualizando o cardapio na array de cardapios
-    strncpy(cardapios[index].entrada, entrada, sizeof(cardapios[index].entrada));
-    strncpy(cardapios[index].prato_principal, prato_principal, sizeof(cardapios[index].prato_principal));
-    strncpy(cardapios[index].sobremesa, sobremesa, sizeof(cardapios[index].sobremesa));
-    cardapios[index].status = 1;
+    printf("Digite o ID da receita que será a Sobremesa ");
+    scanf("%d", &sobremesa);
+    getchar();
+
+    cardapios[index].entrada = entrada;
+    cardapios[index].prato_principal = prato_principal;
+    cardapios[index].sobremesa = sobremesa;
 
     printf("\nCardapio editado com sucesso!\n");
-
 }
 
 void deletar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
@@ -129,7 +128,7 @@ void deletar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
     printf("\nCardapio deletado com sucesso!\n");
 }
 
-void pesquisar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
+void pesquisar_cardapio(Cardapio cardapios[], int quantidade_cardapios, Receita receitas[], int quantidade_receitas) {
     int id;
     printf("=============================\n");
     printf("      PESQUISAR CARDAPIO     \n");
@@ -149,9 +148,9 @@ void pesquisar_cardapio(Cardapio cardapios[], int quantidade_cardapios) {
         return;
     }
     printf("\n");
-    printf("Informações do cardápio:\n");
-    printf("Entrada: %s\n", cardapios[index].entrada);
-    printf("Prato Principal: %s\n", cardapios[index].prato_principal);
-    printf("Sobremesa: %s\n", cardapios[index].sobremesa);
-    printf("Status: %d\n", cardapios[index].status);
+    printf("ID: %d\n", cardapios[index].id);
+    printf("Entrada: %s\n", receitas[cardapios[index].entrada - 1].nome);
+    printf("Prato Principal: %s\n", receitas[cardapios[index].prato_principal - 1].nome);
+    printf("Sobremesa: %s\n", receitas[cardapios[index].sobremesa - 1].nome);
+    printf("\n");
 }
