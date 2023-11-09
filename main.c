@@ -35,8 +35,6 @@ void sobre() {
 }
 
 int main(){
-    Receita receitas[100];
-    int quantidade_receitas = 0;
     Autor autores[100];
     int quantidade_autores = 0;
     Cardapio cardapios[100];
@@ -54,16 +52,17 @@ int main(){
                 opt1 = menu_receitas();
                 switch(opt1) {
                     case '1':
-                        cadastrar_receita(receitas, &quantidade_receitas);
+                        cadastrar_receita();
                         break;
                     case '2':
-                        editar_receita(receitas, quantidade_receitas);
+                        editar_receita();
                         break;
                     case '3':
-                        deletar_receita(receitas, quantidade_receitas);
+                        deletar_receita();
+                        getchar();
                         break;
                     case '4':
-                        pesquisar_receita(receitas, quantidade_receitas, autores, quantidade_autores);
+                        pesquisar_receita();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
@@ -107,7 +106,9 @@ int main(){
                         deletar_cardapio(cardapios, quantidade_cardapios);
                         break;
                     case '4':
-                        pesquisar_cardapio(cardapios, quantidade_cardapios, receitas, quantidade_receitas);
+                        // pesquisar_cardapio(cardapios, quantidade_cardapios, receitas, quantidade_receitas);
+                        // Temporariamente desativado
+                        getchar();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");

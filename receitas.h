@@ -12,9 +12,11 @@ typedef struct Receita {
 } Receita;
 
 char menu_receitas();
-void cadastrar_receita(Receita receitas[], int *quantidade_receitas);
-void editar_receita(Receita receitas[], int quantidade_receitas);
-void deletar_receita(Receita receitas[], int quantidade_receitas);
-void pesquisar_receita(Receita receitas[], int quantidade_receitas, Autor autores[], int quantidade_autores);
-
+void cadastrar_receita();
+void editar_receita();
+void deletar_receita();
+void pesquisar_receita();
+void salvar_receita(Receita* receitas);
+int contar_receitas();
+int existe_receita(int id);
 #endif 
