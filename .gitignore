@@ -11,6 +11,7 @@
 *.obj
 *.elf
 *.bat
+*.dat
 
 # Linker output
 *.ilk
@@ -59,3 +60,5 @@ dkms.conf
 # End of https://www.toptal.com/developers/gitignore/api/c
 
 *.drawio
+.vscode
+output

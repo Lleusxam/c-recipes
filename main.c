@@ -3,7 +3,6 @@
 #include "receitas.h"
 #include "autores.h"
 #include "cardapio.h"
-#include "ingredientes.h"
 
 char menu_principal() {
     char opt;
@@ -13,7 +12,6 @@ char menu_principal() {
     printf("|   1. Menu de Receitas     |\n");
     printf("|   2. Menu de Autores      |\n");
     printf("|   3. Menu de Cardapio     |\n");
-    printf("|   4. Menu de Ingredientes |\n");
     printf("|   0. Finalizar o programa |\n");
     printf("=============================\n");
     printf("\n");
@@ -109,28 +107,6 @@ int main(){
                         // pesquisar_cardapio(cardapios, quantidade_cardapios, receitas, quantidade_receitas);
                         // Temporariamente desativado
                         getchar();
-                        break;
-                    case '0':
-                        printf("Voltando ao menu principal...\n");
-                        break;
-                    default:
-                        printf("Opcao invalida\n");
-                }
-                break;
-            case '4':
-                opt1 = menu_ingredientes();
-                switch(opt1) {
-                    case '1':
-                       cadastrar_ingrediente();
-                        break;
-                    case '2':
-                        editar_ingrediente();
-                        break;
-                    case '3':
-                        deletar_ingrediente();
-                        break;
-                    case '4':
-                        pesquisar_ingrediente();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
