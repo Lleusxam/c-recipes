@@ -4,7 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-char menu_receitas() {
+char menu_receitas()
+{
     char opt;
     printf("=============================\n");
     printf("        MENU RECEITAS        \n");
@@ -25,25 +26,29 @@ char menu_receitas() {
     return opt;
 }
 
-int contar_receitas() {
-    FILE *arquivo;
+int contar_receitas()
+{
+    FILE *arquivo_receitas;
     int quantidade_receitas = 0;
-    arquivo = fopen("receitas.dat", "rb");
-    if (arquivo == NULL) {
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
         perror("Erro ao abrir o arquivo para leitura");
+        printf("Gerando novo arquivo...\n");
         return 0;
     }
-    Receita *receita = (Receita *) malloc(sizeof(Receita));
-    while (fread(receita, sizeof(Receita), 1, arquivo)) {
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
         quantidade_receitas++;
     }
-    fclose(arquivo);
+    fclose(arquivo_receitas);
     free(receita);
     return quantidade_receitas;
-
 }
 
-void cadastrar_receita() {
+void cadastrar_receita()
+{
     printf("=============================\n");
     printf("      CADASTRAR RECEITA      \n");
     printf("=============================\n");
@@ -60,8 +65,8 @@ void cadastrar_receita() {
 
     printf("Descricao da receita: ");
     fgets(descricao, sizeof(descricao), stdin);
-    descricao[strlen(descricao) - 1] = 0; 
-    
+    descricao[strlen(descricao) - 1] = 0;
+
     printf("Porcoes da receita: ");
     scanf("%d", &porcoes);
     getchar();
@@ -74,7 +79,6 @@ void cadastrar_receita() {
     scanf("%d", &id_autor);
     getchar();
 
-    
     int quantidade_receitas = contar_receitas();
     nova_receita.id = quantidade_receitas + 1;
     strncpy(nova_receita.nome, nome, sizeof(nova_receita.nome));
@@ -84,116 +88,153 @@ void cadastrar_receita() {
     nova_receita.id_autor = id_autor;
     nova_receita.status = 1;
 
-
     salvar_receita(&nova_receita);
 
-
     printf("\nReceita cadastrada com sucesso!\n");
-
 }
 
-int existe_receita(int id) {
-    FILE *arquivo;
-    arquivo = fopen("receitas.dat", "rb");
-    if (arquivo == NULL) {
+int existe_receita(int id)
+{
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
         perror("Erro ao abrir o arquivo para leitura");
         return 0;
     }
-    Receita *receita = (Receita *) malloc(sizeof(Receita));
-    while (fread(receita, sizeof(Receita), 1, arquivo)) {
-        if (receita->id == id) {
-            fclose(arquivo);
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (receita->id == id)
+        {
+            fclose(arquivo_receitas);
             free(receita);
             return 1;
         }
     }
-    fclose(arquivo);
+    fclose(arquivo_receitas);
     free(receita);
     return 0;
 }
 
-
 // Feito com ajuda do GitHub Copilot (https://copilot.github.com/)
-void editar_receita() {
-    int id;
+void editar_receita()
+{
     printf("=============================\n");
     printf("       EDITAR RECEITA        \n");
     printf("=============================\n");
     printf("\n");
+
+    int id;
     printf("Digite o ID da receita que deseja editar: ");
     scanf("%d", &id);
     getchar();
 
     int encontrada = existe_receita(id);
-    if(encontrada == 0) {
-        printf("\nReceita não encontrada!");
+    if (encontrada == 0)
+    {
+        printf("\nReceita não encontrada!\n");
         return;
     }
 
-    FILE *arquivo;
-    arquivo = fopen("receitas.dat", "rb+");
-    if (arquivo == NULL) {
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb+");
+    if (arquivo_receitas == NULL)
+    {
         perror("Erro ao abrir o arquivo para leitura");
         return;
     }
 
     Receita receita;
-    while (fread(&receita, sizeof(Receita), 1, arquivo)) {
-        if (receita.id == id) {
-            printf("\nQual campo deseja editar? (nome, descricao, porcoes, categoria, autor): ");
-            char campo[20];
-            fgets(campo, sizeof(campo), stdin);
-            campo[strlen(campo) - 1] = 0;
+    while (fread(&receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (receita.id == id)
+        {
+            printf("\nQual campo deseja editar?");
+            printf("\n1. Nome");
+            printf("\n2. Descricao");
+            printf("\n3. Porcoes");
+            printf("\n4. Categoria");
+            printf("\n5. Autor");
+            printf("\n0. Retornar");
+            printf("\nDigite sua escolha: ");
+            int opcao;
+            scanf("%d", &opcao);
+            getchar();
 
-            if (strcmp(campo, "nome") == 0) {
-                printf("\nDigite o novo nome: ");
-                char novo_nome[100];
-                fgets(novo_nome, sizeof(novo_nome), stdin);
-                novo_nome[strlen(novo_nome) - 1] = 0;
-                strncpy(receita.nome, novo_nome, sizeof(receita.nome));
-            } else if (strcmp(campo, "descricao") == 0) {
-                printf("\nDigite a nova descricao: ");
-                char nova_descricao[500];
-                fgets(nova_descricao, sizeof(nova_descricao), stdin);
-                nova_descricao[strlen(nova_descricao) - 1] = 0;
-                strncpy(receita.descricao, nova_descricao, sizeof(receita.descricao));
-            } else if (strcmp(campo, "porcoes") == 0) {
-                printf("\nDigite a nova quantidade de porcoes: ");
-                int nova_porcoes;
-                scanf("%d", &nova_porcoes);
+            switch (opcao)
+            {
+            case 1:
+            {
+                char nome[100];
+                printf("Digite o novo nome: ");
+                fgets(nome, sizeof(nome), stdin);
+                nome[strlen(nome) - 1] = 0;
+                strncpy(receita.nome, nome, sizeof(receita.nome));
+                break;
+            }
+            case 2:
+            {
+                char descricao[500];
+                printf("Digite a nova descricao: ");
+                fgets(descricao, sizeof(descricao), stdin);
+                descricao[strlen(descricao) - 1] = 0;
+                strncpy(receita.descricao, descricao, sizeof(receita.descricao));
+                break;
+            }
+            case 3:
+            {
+                int porcoes;
+                printf("Digite a nova quantidade de porcoes: ");
+                scanf("%d", &porcoes);
                 getchar();
-                receita.porcoes = nova_porcoes;
-            } else if (strcmp(campo, "categoria") == 0) {
-                printf("\nDigite a nova categoria: ");
-                char nova_categoria[50];
-                fgets(nova_categoria, sizeof(nova_categoria), stdin);
-                nova_categoria[strlen(nova_categoria) - 1] = 0;
-                strncpy(receita.categoria, nova_categoria, sizeof(receita.categoria));
-            } else if (strcmp(campo, "autor") == 0) {
-                printf("\nDigite o novo ID do autor: ");
-                int novo_id_autor;
-                scanf("%d", &novo_id_autor);
+                receita.porcoes = porcoes;
+                break;
+            }
+            case 4:
+            {
+                char categoria[50];
+                printf("Digite a nova categoria: ");
+                fgets(categoria, sizeof(categoria), stdin);
+                categoria[strlen(categoria) - 1] = 0;
+                strncpy(receita.categoria, categoria, sizeof(receita.categoria));
+                break;
+            }
+            case 5:
+            {
+                int id_autor;
+                printf("Digite o novo ID do autor: ");
+                scanf("%d", &id_autor);
                 getchar();
-                receita.id_autor = novo_id_autor;
-            } else {
-                printf("\nCampo inválido!");
+                receita.id_autor = id_autor;
+                break;
+            }
+            case 0:
+            {
+                printf("\nVoltando ao menu principal...\n");
+                fclose(arquivo_receitas);
                 return;
             }
+            default:
+            {
+                printf("Opcao invalida\n");
+                return;
+            }
+            }
 
-            fseek(arquivo, -sizeof(Receita), SEEK_CUR);
-            fwrite(&receita, sizeof(Receita), 1, arquivo);
-            fclose(arquivo);
+            fseek(arquivo_receitas, -sizeof(Receita), SEEK_CUR);
+            fwrite(&receita, sizeof(Receita), 1, arquivo_receitas);
+            fclose(arquivo_receitas);
             printf("\nReceita editada com sucesso!\n");
             return;
         }
     }
 
-    fclose(arquivo);
+    fclose(arquivo_receitas);
 }
 
-
-
-void deletar_receita() {
+void deletar_receita()
+{
     int id;
     printf("=============================\n");
     printf("       DELETAR RECEITA       \n");
@@ -205,25 +246,29 @@ void deletar_receita() {
     getchar();
 
     int encontrada = existe_receita(id);
-    if(encontrada == 0) {
-        printf("\nReceita não encontrada!");
+    if (encontrada == 0)
+    {
+        printf("\nReceita não encontrada!\n");
         return;
     }
 
-    FILE *arquivo;
-    arquivo = fopen("receitas.dat", "rb+");
-    if (arquivo == NULL) {
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb+");
+    if (arquivo_receitas == NULL)
+    {
         perror("Erro ao abrir o arquivo para leitura");
         return;
     }
 
     Receita receita;
-    while (fread(&receita, sizeof(Receita), 1, arquivo)) {
-        if (receita.id == id) {
+    while (fread(&receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (receita.id == id)
+        {
             receita.status = 0;
-            fseek(arquivo, -sizeof(Receita), SEEK_CUR);
-            fwrite(&receita, sizeof(Receita), 1, arquivo);
-            fclose(arquivo);
+            fseek(arquivo_receitas, -sizeof(Receita), SEEK_CUR);
+            fwrite(&receita, sizeof(Receita), 1, arquivo_receitas);
+            fclose(arquivo_receitas);
             printf("\nReceita deletada com sucesso!\n");
             printf("Pressione ENTER para continuar...");
             getchar();
@@ -231,10 +276,11 @@ void deletar_receita() {
         }
     }
 
-    fclose(arquivo);
+    fclose(arquivo_receitas);
 }
 
-void pesquisar_receita() {
+void pesquisar_receita()
+{
     printf("=============================\n");
     printf("      PESQUISAR RECEITA      \n");
     printf("=============================\n");
@@ -245,16 +291,19 @@ void pesquisar_receita() {
     scanf("%d", &id);
     getchar();
 
-    FILE *arquivo;
-    arquivo = fopen("receitas.dat", "rb");  
-    if (arquivo == NULL) {
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
         perror("Erro ao abrir o arquivo para leitura");
         return;
     }
-    Receita *receita = (Receita *) malloc(sizeof(Receita));
-    
-    while (fread(receita, sizeof(Receita), 1, arquivo)) {
-        if (receita->id == id) {
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (receita->id == id)
+        {
             printf("\n");
             printf("Informações da Receita:\n");
             printf("ID: %d\n", receita->id);
@@ -264,19 +313,17 @@ void pesquisar_receita() {
             printf("Categoria: %s\n", receita->categoria);
             printf("Status: %d\n", receita->status);
             printf("Autor: %d\n", receita->id_autor);
-            break;
+            return;
         }
     }
-
+    printf("\nReceita não encontrada!\n");
+    fclose(arquivo_receitas);
 }
-void salvar_receita(Receita *receita) {
-    FILE *arquivo;
-    arquivo = fopen("receitas.dat", "ab");
-    if (arquivo == NULL) {
-        perror("Erro ao abrir o arquivo para escrita");
-        return;
-    }
-    fwrite(receita, sizeof(Receita), 1, arquivo);
-    fclose(arquivo);
+void salvar_receita(Receita *receita)
+{
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "ab");
+    fwrite(receita, sizeof(Receita), 1, arquivo_receitas);
+    fclose(arquivo_receitas);
     free(receita);
 }

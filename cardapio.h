@@ -1,7 +1,8 @@
 #ifndef CARDAPIO_H
 #define CARDAPIO_H
 #include "receitas.h"
-typedef struct Cardapio {
+typedef struct Cardapio
+{
     int id;
     int entrada;
     int prato_principal;
@@ -19,4 +20,4 @@ int existe_cardapio(int id);
 
 #define CARDAPIO_H
 
-#endif 
+#endif

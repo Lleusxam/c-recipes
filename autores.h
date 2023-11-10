@@ -1,6 +1,7 @@
 #ifndef AUTORES_H
 #define AUTORES_H
-typedef struct Autor {
+typedef struct Autor
+{
     int id;
     char nome[50];
     char telefone[15];
