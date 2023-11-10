@@ -33,8 +33,6 @@ void sobre() {
 }
 
 int main(){
-    Autor autores[100];
-    int quantidade_autores = 0;
     Cardapio cardapios[100];
     int quantidade_cardapios = 0;
     char opt, opt1;
@@ -73,16 +71,16 @@ int main(){
                 opt1 = menu_autores();
                 switch(opt1) {
                     case '1':
-                        cadastrar_autor(autores, &quantidade_autores);
+                        cadastrar_autor();
                         break;
                     case '2':
-                        editar_autor(autores, quantidade_autores);
+                        editar_autor();
                         break;
                     case '3':
-                        deletar_autor(autores, quantidade_autores);
+                        deletar_autor();
                         break;
                     case '4':
-                        pesquisar_autor(autores, quantidade_autores);
+                        pesquisar_autor();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");

@@ -23,23 +23,56 @@ char menu_autores() {
     return opt;
 }
 
-int existe_autor(Autor autores[], int quantidade_autores, int id) {
-    for (int i = 0; i < quantidade_autores; i++) {
-        if (autores[i].id == id) {
+int contar_autores() {
+    FILE *arquivo_autores;
+    int quantidade_autores = 0;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL) {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+    Autor *autor = (Autor *) malloc(sizeof(Autor));
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores)) {
+        quantidade_autores++;
+    }
+    fclose(arquivo_autores);
+    free(autor);
+    return quantidade_autores;
+
+}
+
+
+int existe_autor(int id) {
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL) {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+    Autor *autor = (Autor *) malloc(sizeof(Autor));
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores)) {
+        if (autor->id == id) {
+            fclose(arquivo_autores);
+            free(autor);
             return 1;
         }
     }
+    fclose(arquivo_autores);
+    free(autor);
     return 0;
 }
 
-void cadastrar_autor(Autor autores[], int *quantidade_autores) {
+
+void cadastrar_autor() {
     printf("=============================\n");
     printf("      CADASTRAR AUTOR        \n");
     printf("=============================\n");
     printf("\n");
-    char nome[100];
+    char nome[50];
     char telefone[15];
     Autor novo_autor;
+
+
     printf("Nome do autor: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
@@ -48,97 +81,167 @@ void cadastrar_autor(Autor autores[], int *quantidade_autores) {
     fgets(telefone, sizeof(telefone), stdin);
     telefone[strlen(telefone) - 1] = 0;
 
-    // Adicionando o autor na array de autores
-    novo_autor.id = *quantidade_autores + 1; // Atribua o ID com base no tamanho atual do vetor
+    int quantidade_autores = contar_autores();
+    novo_autor.id = quantidade_autores + 1;
     strncpy(novo_autor.nome, nome, sizeof(novo_autor.nome));
     strncpy(novo_autor.telefone, telefone, sizeof(novo_autor.telefone));
     novo_autor.status = 1;
 
-    autores[*quantidade_autores] = novo_autor;
-    (*quantidade_autores)++;
+    salvar_autor(&novo_autor);
 
     printf("\nAutor cadastrado com sucesso!\n");
-
 }
 
-void editar_autor(Autor autores[], int quantidade_autores) {
-    int id;
-    char nome[100];
-    char telefone[15];
-
-    printf("Digite o ID do autor: ");
-    scanf("%d", &id);
-    getchar();
-    int index = id - 1;
-
-    int encontrada = existe_autor(autores, quantidade_autores, id);
-    if(encontrada == 0) {
-        printf("\nAutor não encontrado!\n");
-        return;
-    }
-
-    printf("=============================\n");
-    printf("      EDITAR AUTOR           \n");
-    printf("=============================\n");
-    printf("\n");
-
-    printf("Digite as novas informações do autor %s:\n", autores[index].nome);
-    printf("Novo nome do autor: ");
-    fgets(nome, sizeof(nome), stdin);
-    nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
-
-    printf("Novo telefone do autor: ");
-    fgets(telefone, sizeof(telefone), stdin);
-    telefone[strlen(telefone) - 1] = 0;
-
-    // Atualizando o autor na array de autores
-    strncpy(autores[index].nome, nome, sizeof(autores[index].nome));
-    strncpy(autores[index].telefone, telefone, sizeof(autores[index].telefone));
-
-    printf("\nAutor atualizado com sucesso!\n");
-}
-
-void deletar_autor(Autor autores[], int quantidade_autores) {
+void editar_autor() {
     int id;
     printf("=============================\n");
-    printf("      DELETAR AUTOR          \n");
+    printf("       EDITAR AUTOR          \n");
     printf("=============================\n");
     printf("\n");
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
     getchar();
-    int index = id - 1;
 
-    int encontrada = existe_autor(autores, quantidade_autores, id);
+    int encontrada = existe_autor(id);
     if(encontrada == 0) {
         printf("\nAutor não encontrado!\n");
         return;
     }
 
-    autores[index].status = 0;
-    printf("\nAutor deletado com sucesso!\n");
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL) {
+        perror("Erro ao abrir o arquivo para leitura e escrita");
+        return;
+    }
+
+    Autor autor;
+    while (fread(&autor, sizeof(Autor), 1, arquivo_autores)) {
+        if (autor.id == id) {
+            printf("\nQual campo deseja editar?\n");
+            printf("1 - Nome\n");
+            printf("2 - Telefone\n");
+            printf("3 - Cancelar\n");
+            printf("Digite sua escolha: ");
+            int opcao;
+            scanf("%d", &opcao);
+            getchar();
+
+            switch (opcao) {
+                case 1:
+                    printf("Digite o novo nome do autor: ");
+                    fgets(autor.nome, sizeof(autor.nome), stdin);
+                    autor.nome[strlen(autor.nome) - 1] = 0;
+                    break;
+                case 2:
+                    printf("Digite o novo telefone do autor: ");
+                    fgets(autor.telefone, sizeof(autor.telefone), stdin);
+                    autor.telefone[strlen(autor.telefone) - 1] = 0;
+                    break;
+                case 3:
+                    fclose(arquivo_autores);
+                    return;
+                default:
+                    printf("\nOpção inválida!\n");
+                    fclose(arquivo_autores);
+                    return;
+            }
+
+            fseek(arquivo_autores, -sizeof(Autor), SEEK_CUR);
+            fwrite(&autor, sizeof(Autor), 1, arquivo_autores);
+            printf("\nAutor editado com sucesso!\n");
+            fclose(arquivo_autores);
+            return;
+        }
+    }
+
+    fclose(arquivo_autores);
 }
 
-void pesquisar_autor(Autor autores[], int quantidade_autores) {
+
+void deletar_autor() {
+    int id;
+    printf("=============================\n");
+    printf("       DELETAR AUTOR         \n");
+    printf("=============================\n");
+    printf("\n");
+    printf("Digite o ID do autor: ");
+    scanf("%d", &id);
+    getchar();
+
+    int encontrada = existe_autor(id);
+    if(encontrada == 0) {
+        printf("\nAutor não encontrado!\n");
+        return;
+    }
+
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL) {
+        perror("Erro ao abrir o arquivo para leitura e escrita");
+        return;
+    }
+
+    Autor autor;
+    while (fread(&autor, sizeof(Autor), 1, arquivo_autores)) {
+        if (autor.id == id) {
+            autor.status = 0;
+            fseek(arquivo_autores, -sizeof(Autor), SEEK_CUR);
+            fwrite(&autor, sizeof(Autor), 1, arquivo_autores);
+            printf("\nAutor deletado com sucesso!\n");
+            fclose(arquivo_autores);
+            return;
+        }
+    }
+
+    fclose(arquivo_autores);
+}
+
+
+
+void pesquisar_autor() {
     printf("=============================\n");
     printf("      PESQUISAR AUTOR        \n");
     printf("=============================\n");
     printf("\n");
+    
     int id;
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
     getchar();
-    int index = id - 1;
 
-    int encontrada = existe_autor(autores, quantidade_autores, id);
-    if(encontrada == 0) {
-        printf("\nAutor não encontrado!\n");
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL) {
+        perror("Erro ao abrir o arquivo para leitura");
         return;
     }
-    printf("\n");
-    printf("Informações do Autor:\n");
-    printf("ID: %d\n", autores[index].id);
-    printf("Nome: %s\n", autores[index].nome);
-    printf("Telefone: %s\n", autores[index].telefone);
-    printf("Status: %d\n", autores[index].status);
+
+    Autor *autor = (Autor *) malloc(sizeof(Autor));
+    
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores)) {
+        if (autor->id == id) {
+            printf("\n");
+            printf("Nome: %s\n", autor->nome);
+            printf("Telefone: %s\n", autor->telefone);
+            printf("Status %d\n", autor->status);
+            return;
+        }
+    }
+
+    printf("\nAutor não encontrado!\n");
+    fclose(arquivo_autores);
+}
+
+
+
+
+void salvar_autor(Autor *autor) {
+    FILE *arquivo_autores = fopen("autores.dat", "ab");
+    if (arquivo_autores == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+    fwrite(autor, sizeof(Autor), 1, arquivo_autores);
+    fclose(arquivo_autores);
 }
