@@ -93,18 +93,16 @@ int main(){
                 opt1 = menu_cardapio();
                 switch(opt1) {
                     case '1':
-                        cadastrar_cardapio(cardapios, &quantidade_cardapios);
+                        cadastrar_cardapio();
                         break;
                     case '2':
-                        editar_cardapio(cardapios, quantidade_cardapios);
+                        editar_cardapio();
                         break;
                     case '3':
-                        deletar_cardapio(cardapios, quantidade_cardapios);
+                        deletar_cardapio();
                         break;
                     case '4':
-                        // pesquisar_cardapio(cardapios, quantidade_cardapios, receitas, quantidade_receitas);
-                        // Temporariamente desativado
-                        getchar();
+                        pesquisar_cardapio();
                         break;
                     case '0':
                         printf("Voltando ao menu principal...\n");
