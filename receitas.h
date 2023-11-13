@@ -1,7 +1,8 @@
 #ifndef RECEITAS_H
 #define RECEITAS_H
 #include "autores.h"
-typedef struct Receita {
+typedef struct Receita
+{
     int id;
     char nome[100];
     char descricao[500];
@@ -16,7 +17,9 @@ void cadastrar_receita();
 void editar_receita();
 void deletar_receita();
 void pesquisar_receita();
-void salvar_receita(Receita* receitas);
+void salvar_receita(Receita *receitas);
 int contar_receitas();
 int existe_receita(int id);
-#endif 
+char* buscar_receita(int id);
+int existe_receita_nome(char* nome);
+#endif

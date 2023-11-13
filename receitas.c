@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "receitas.h"
 #include "autores.h"
+#include "validacoes.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -19,10 +20,10 @@ char menu_receitas()
     printf("\n");
     printf("Escolha sua opcao: ");
     scanf("%c", &opt);
-    getchar();
+    limpar_buffer();
     printf("\n");
     printf("Pressione ENTER para continuar...");
-    getchar();
+    limpar_buffer();
     return opt;
 }
 
@@ -58,26 +59,70 @@ void cadastrar_receita()
     int porcoes;
     char categoria[50];
     int id_autor;
+    int aux;
     Receita nova_receita;
     printf("Nome da receita: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
 
+    aux = valida_nome(nome);
+    if (aux == 0)
+    {
+        printf("Nome inválido!\n");
+        return;
+    }
+
+    aux = existe_receita_nome(nome);
+    if (aux == 1)
+    {
+        printf("Nome já cadastrado!\n");
+        return;
+    }
+    
     printf("Descricao da receita: ");
     fgets(descricao, sizeof(descricao), stdin);
     descricao[strlen(descricao) - 1] = 0;
 
+    if (strlen(descricao) == 0 || strlen(descricao) > 500)
+    {
+        printf("Descricao inválida!\n");
+        return;
+    }
+
+
     printf("Porcoes da receita: ");
     scanf("%d", &porcoes);
-    getchar();
+    limpar_buffer();
+
+    if (porcoes <= 0 || porcoes > 100)
+    {
+        printf("Quantidade de porcoes inválida!\n");
+        return;
+    }
 
     printf("Categoria da receita: ");
     fgets(categoria, sizeof(categoria), stdin);
     categoria[strlen(categoria) - 1] = 0;
 
+    aux = valida_nome(categoria);
+    
+    if (aux == 0 || strlen(categoria) > 50)
+    {
+        printf("Categoria inválida!\n");
+        return;
+    }
+
+
     printf("Digite o ID do autor da receita: ");
     scanf("%d", &id_autor);
-    getchar();
+    limpar_buffer();
+
+    aux = existe_autor_id(id_autor);
+    if (aux == 0)
+    {
+        printf("Autor não encontrado!\n");
+        return;
+    }
 
     int quantidade_receitas = contar_receitas();
     nova_receita.id = quantidade_receitas + 1;
@@ -128,7 +173,7 @@ void editar_receita()
     int id;
     printf("Digite o ID da receita que deseja editar: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
     int encontrada = existe_receita(id);
     if (encontrada == 0)
@@ -160,7 +205,7 @@ void editar_receita()
             printf("\nDigite sua escolha: ");
             int opcao;
             scanf("%d", &opcao);
-            getchar();
+            limpar_buffer();
 
             switch (opcao)
             {
@@ -170,6 +215,22 @@ void editar_receita()
                 printf("Digite o novo nome: ");
                 fgets(nome, sizeof(nome), stdin);
                 nome[strlen(nome) - 1] = 0;
+
+                int aux = valida_nome(nome);
+                if (aux == 0)
+                {
+                    printf("Nome inválido!\n");
+                    return;
+                }
+
+                aux = existe_receita_nome(nome);
+
+                if (aux == 1)
+                {
+                    printf("Nome já cadastrado!\n");
+                    return;
+                }
+
                 strncpy(receita.nome, nome, sizeof(receita.nome));
                 break;
             }
@@ -179,6 +240,13 @@ void editar_receita()
                 printf("Digite a nova descricao: ");
                 fgets(descricao, sizeof(descricao), stdin);
                 descricao[strlen(descricao) - 1] = 0;
+
+                if (strlen(descricao) == 0 || strlen(descricao) > 500)
+                {
+                    printf("Descricao inválida!\n");
+                    return;
+                }
+
                 strncpy(receita.descricao, descricao, sizeof(receita.descricao));
                 break;
             }
@@ -187,7 +255,14 @@ void editar_receita()
                 int porcoes;
                 printf("Digite a nova quantidade de porcoes: ");
                 scanf("%d", &porcoes);
-                getchar();
+                limpar_buffer();
+
+                if (porcoes <= 0 || porcoes > 100)
+                {
+                    printf("Quantidade de porcoes inválida!\n");
+                    return;
+                }
+
                 receita.porcoes = porcoes;
                 break;
             }
@@ -197,6 +272,14 @@ void editar_receita()
                 printf("Digite a nova categoria: ");
                 fgets(categoria, sizeof(categoria), stdin);
                 categoria[strlen(categoria) - 1] = 0;
+
+                int aux = valida_nome(categoria);
+                if (aux == 0 || strlen(categoria) > 50)
+                {
+                    printf("Categoria inválida!\n");
+                    return;
+                }
+
                 strncpy(receita.categoria, categoria, sizeof(receita.categoria));
                 break;
             }
@@ -205,7 +288,15 @@ void editar_receita()
                 int id_autor;
                 printf("Digite o novo ID do autor: ");
                 scanf("%d", &id_autor);
-                getchar();
+                limpar_buffer();
+                
+                int aux = existe_autor_id(id_autor);
+                if (aux == 0)
+                {
+                    printf("Autor não encontrado!\n");
+                    return;
+                }
+
                 receita.id_autor = id_autor;
                 break;
             }
@@ -243,7 +334,7 @@ void deletar_receita()
 
     printf("Digite o ID da receita que deseja deletar: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
     int encontrada = existe_receita(id);
     if (encontrada == 0)
@@ -271,7 +362,7 @@ void deletar_receita()
             fclose(arquivo_receitas);
             printf("\nReceita deletada com sucesso!\n");
             printf("Pressione ENTER para continuar...");
-            getchar();
+            limpar_buffer();
             return;
         }
     }
@@ -285,11 +376,10 @@ void pesquisar_receita()
     printf("      PESQUISAR RECEITA      \n");
     printf("=============================\n");
     printf("\n");
-
     int id;
     printf("Digite o ID da receita que deseja pesquisar: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
     FILE *arquivo_receitas;
     arquivo_receitas = fopen("receitas.dat", "rb");
@@ -298,12 +388,14 @@ void pesquisar_receita()
         perror("Erro ao abrir o arquivo para leitura");
         return;
     }
+    
     Receita *receita = (Receita *)malloc(sizeof(Receita));
 
     while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
     {
         if (receita->id == id)
         {
+            char *nome_autor;    
             printf("\n");
             printf("Informações da Receita:\n");
             printf("ID: %d\n", receita->id);
@@ -312,7 +404,8 @@ void pesquisar_receita()
             printf("Porcoes: %d\n", receita->porcoes);
             printf("Categoria: %s\n", receita->categoria);
             printf("Status: %d\n", receita->status);
-            printf("Autor: %d\n", receita->id_autor);
+            nome_autor = buscar_autor(receita->id_autor);
+            printf("Autor: %s\n", nome_autor);
             return;
         }
     }
@@ -326,4 +419,56 @@ void salvar_receita(Receita *receita)
     fwrite(receita, sizeof(Receita), 1, arquivo_receitas);
     fclose(arquivo_receitas);
     free(receita);
+}
+
+char* buscar_receita(int id) {
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return NULL;
+    }
+
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (receita->id == id)
+        {
+            char* nome = (char*)malloc(sizeof(char) * 50);
+            strcpy(nome, receita->nome);
+            fclose(arquivo_receitas);
+            free(receita);
+            return nome;
+        }
+    }
+    fclose(arquivo_receitas);
+    free(receita);
+    return NULL;
+}
+
+int existe_receita_nome(char* nome) {
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (strcmp(receita->nome, nome) == 0)
+        {
+            fclose(arquivo_receitas);
+            free(receita);
+            return 1;
+        }
+    }
+    fclose(arquivo_receitas);
+    free(receita);
+    return 0;
 }

@@ -17,7 +17,4 @@ void deletar_cardapio();
 void pesquisar_cardapio();
 void salvar_cardapio(Cardapio *cardapio);
 int existe_cardapio(int id);
-
-#define CARDAPIO_H
-
 #endif

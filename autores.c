@@ -2,6 +2,7 @@
 #include "autores.h"
 #include <string.h>
 #include <stdlib.h>
+#include "validacoes.h"
 char menu_autores()
 {
     char opt;
@@ -17,10 +18,10 @@ char menu_autores()
     printf("\n");
     printf("Escolha sua opcao: ");
     scanf("%c", &opt);
-    getchar();
+    limpar_buffer();
     printf("\n");
     printf("Pressione ENTER para continuar...");
-    getchar();
+    limpar_buffer();
     return opt;
 }
 
@@ -46,7 +47,7 @@ int contar_autores()
 }
 
 // Feito com ajuda do GitHub Copilot (https://copilot.github.com/)
-int existe_autor(int id)
+int existe_autor_id(int id)
 {
     FILE *arquivo_autores;
     arquivo_autores = fopen("autores.dat", "rb");
@@ -78,15 +79,65 @@ void cadastrar_autor()
     printf("\n");
     char nome[50];
     char telefone[15];
+    int aux;
     Autor novo_autor;
 
     printf("Nome do autor: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
 
-    printf("Telefone do autor: ");
+    aux = valida_nome(nome);
+    if (aux == 0)
+    {
+        printf("\nNome inválido!\n");
+        return;
+    }
+    aux = existe_autor_nome(nome);
+    if (aux == 1)
+    {
+        printf("\nJá existe um autor com esse nome. Deseja cadastrar mesmo assim?\n");
+        printf("1 - Sim\n");
+        printf("0 - Não\n");
+        printf("Digite sua escolha: ");
+        int opcao;
+        scanf("%d", &opcao);
+        limpar_buffer();
+        if (opcao == 0)
+        {
+            printf("\nVoltando ao menu principal...\n");
+            return;
+        }
+    }
+
+    printf("Telefone do autor (com DDD): ");
     fgets(telefone, sizeof(telefone), stdin);
     telefone[strlen(telefone) - 1] = 0;
+
+    aux = valida_telefone(telefone);
+
+    if (aux == 0)
+    {
+        printf("\nTelefone inválido!\n");
+        return;
+    }
+
+    aux = existe_telefone(telefone);
+
+    if (aux == 1)
+    {
+        printf("\nJá existe um autor com esse telefone. Deseja cadastrar mesmo assim?\n");
+        printf("1 - Sim\n");
+        printf("0 - Não\n");
+        printf("Digite sua escolha: ");
+        int opcao;
+        scanf("%d", &opcao);
+        limpar_buffer();
+        if (opcao == 0)
+        {
+            printf("\nVoltando ao menu principal...\n");
+            return;
+        }
+    }
 
     int quantidade_autores = contar_autores();
     novo_autor.id = quantidade_autores + 1;
@@ -99,18 +150,20 @@ void cadastrar_autor()
     printf("\nAutor cadastrado com sucesso!\n");
 }
 
+// Feito com ajuda do GitHub Copilot (https://copilot.github.com/)
 void editar_autor()
 {
-    int id;
     printf("=============================\n");
     printf("       EDITAR AUTOR          \n");
     printf("=============================\n");
     printf("\n");
+    int id;
+    int aux;
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
-    int encontrada = existe_autor(id);
+    int encontrada = existe_autor_id(id);
     if (encontrada == 0)
     {
         printf("\nAutor não encontrado!\n");
@@ -137,7 +190,7 @@ void editar_autor()
             printf("Digite sua escolha: ");
             int opcao;
             scanf("%d", &opcao);
-            getchar();
+            limpar_buffer();
 
             switch (opcao)
             {
@@ -145,11 +198,64 @@ void editar_autor()
                 printf("Digite o novo nome do autor: ");
                 fgets(autor.nome, sizeof(autor.nome), stdin);
                 autor.nome[strlen(autor.nome) - 1] = 0;
+
+                aux = valida_nome(autor.nome);
+                if (aux == 0)
+                {
+                    printf("\nNome inválido!\n");
+                    fclose(arquivo_autores);
+                    return;
+                }
+                aux = existe_autor_nome(autor.nome);
+                if (aux == 1)
+                {
+                    printf("\nJá existe um autor com esse nome. Deseja cadastrar mesmo assim?\n");
+                    printf("1 - Sim\n");
+                    printf("0 - Não\n");
+                    printf("Digite sua escolha: ");
+                    int opcao;
+                    scanf("%d", &opcao);
+                    limpar_buffer();
+                    if (opcao == 0)
+                    {
+                        printf("\nVoltando ao menu principal...\n");
+                        fclose(arquivo_autores);
+                        return;
+                    }
+                }
                 break;
             case 2:
                 printf("Digite o novo telefone do autor: ");
                 fgets(autor.telefone, sizeof(autor.telefone), stdin);
                 autor.telefone[strlen(autor.telefone) - 1] = 0;
+
+                aux = valida_telefone(autor.telefone);
+
+                if (aux == 0)
+                {
+                    printf("\nTelefone inválido!\n");
+                    fclose(arquivo_autores);
+                    return;
+                }
+
+                aux = existe_telefone(autor.telefone);
+
+                if (aux == 1)
+                {
+                    printf("\nJá existe um autor com esse telefone. Deseja cadastrar mesmo assim?\n");
+                    printf("1 - Sim\n");
+                    printf("0 - Não\n");
+                    printf("Digite sua escolha: ");
+                    int opcao;
+                    scanf("%d", &opcao);
+                    limpar_buffer();
+                    if (opcao == 0)
+                    {
+                        printf("\nVoltando ao menu principal...\n");
+                        fclose(arquivo_autores);
+                        return;
+                    }
+                }
                 break;
             case 0:
                 printf("\nVoltando ao menu principal...\n");
@@ -181,9 +287,9 @@ void deletar_autor()
     printf("\n");
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
-    int encontrada = existe_autor(id);
+    int encontrada = existe_autor_id(id);
     if (encontrada == 0)
     {
         printf("\nAutor não encontrado!\n");
@@ -225,7 +331,7 @@ void pesquisar_autor()
     int id;
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
-    getchar();
+    limpar_buffer();
 
     FILE *arquivo_autores;
     arquivo_autores = fopen("autores.dat", "rb");
@@ -258,4 +364,81 @@ void salvar_autor(Autor *autor)
     FILE *arquivo_autores = fopen("autores.dat", "ab");
     fwrite(autor, sizeof(Autor), 1, arquivo_autores);
     fclose(arquivo_autores);
+}
+
+char *buscar_autor(int id)
+{
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return NULL;
+    }
+
+    Autor *autor = (Autor *)malloc(sizeof(Autor));
+
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores))
+    {
+        if (autor->id == id)
+        {
+            fclose(arquivo_autores);
+            return autor->nome;
+        }
+    }
+
+    fclose(arquivo_autores);
+    return NULL;
+}
+
+int existe_autor_nome(char *nome)
+{
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+
+    Autor *autor = (Autor *)malloc(sizeof(Autor));
+
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores))
+    {
+        if (strcmp(autor->nome, nome) == 0)
+        {
+            fclose(arquivo_autores);
+            free(autor);
+            return 1;
+        }
+    }
+
+    fclose(arquivo_autores);
+    return 0;
+}
+
+int existe_telefone(char *telefone)
+{
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+
+    Autor *autor = (Autor *)malloc(sizeof(Autor));
+
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores))
+    {
+        if (strcmp(autor->telefone, telefone) == 0)
+        {
+            fclose(arquivo_autores);
+            free(autor);
+            return 1;
+        }
+    }
+
+    fclose(arquivo_autores);
+    return 0;
 }

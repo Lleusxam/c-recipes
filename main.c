@@ -3,6 +3,7 @@
 #include "receitas.h"
 #include "autores.h"
 #include "cardapio.h"
+#include "validacoes.h"
 
 char menu_principal()
 {
@@ -39,7 +40,7 @@ int main()
     sobre();
 
     printf("\nPressione ENTER para continuar...");
-    getchar();
+    limpar_buffer();
 
     do
     {
@@ -67,6 +68,7 @@ int main()
                 break;
             default:
                 printf("Opcao invalida\n");
+                limpar_buffer();
             }
             break;
         case '2':
@@ -90,6 +92,7 @@ int main()
                 break;
             default:
                 printf("Opcao invalida\n");
+                limpar_buffer();
             }
             break;
         case '3':
@@ -113,6 +116,7 @@ int main()
                 break;
             default:
                 printf("Opcao invalida\n");
+                limpar_buffer();
             }
             break;
         case '0':
@@ -120,6 +124,7 @@ int main()
             break;
         default:
             printf("Opcao invalida\n");
+            limpar_buffer();
         }
     } while (opt != '0');
 
