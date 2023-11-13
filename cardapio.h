@@ -15,6 +15,7 @@ void cadastrar_cardapio();
 void editar_cardapio();
 void deletar_cardapio();
 void pesquisar_cardapio();
+void listar_cardapios();
 void salvar_cardapio(Cardapio *cardapio);
 int existe_cardapio(int id);
 #endif

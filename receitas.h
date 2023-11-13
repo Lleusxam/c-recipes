@@ -17,6 +17,7 @@ void cadastrar_receita();
 void editar_receita();
 void deletar_receita();
 void pesquisar_receita();
+void listar_receitas();
 void salvar_receita(Receita *receitas);
 int contar_receitas();
 int existe_receita(int id);

@@ -13,6 +13,7 @@ char menu_autores()
     printf("|   2. Editar autor         |\n");
     printf("|   3. Deletar autor        |\n");
     printf("|   4. Pesquisar autor      |\n");
+    printf("|   5. Listar autores       |\n");
     printf("|   0. Retornar             |\n");
     printf("=============================\n");
     printf("\n");
@@ -358,6 +359,36 @@ void pesquisar_autor()
     printf("\nAutor não encontrado!\n");
     fclose(arquivo_autores);
 }
+
+void listar_autores()
+{
+    printf("=============================\n");
+    printf("        LISTAR AUTORES       \n");
+    printf("=============================\n");
+    printf("\n");
+
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+
+    Autor *autor = (Autor *)malloc(sizeof(Autor));
+
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores))
+    {
+        printf("ID: %d\n", autor->id);
+        printf("Nome: %s\n", autor->nome);
+        printf("Telefone: %s\n", autor->telefone);
+        printf("Status: %d\n", autor->status);
+        printf("\n");
+    }
+
+    fclose(arquivo_autores);
+}
+
 
 void salvar_autor(Autor *autor)
 {

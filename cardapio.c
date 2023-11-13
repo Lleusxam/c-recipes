@@ -14,7 +14,8 @@ char menu_cardapio()
     printf("|   2. Editar cardapio       |\n");
     printf("|   3. Deletar cardapio      |\n");
     printf("|   4. Pesquisar cardapio    |\n");
-    printf("|   0. Retornar             |\n");
+    printf("|   5. Listar cardapios      |\n");
+    printf("|   0. Retornar              |\n");
     printf("=============================\n");
     printf("\n");
     printf("Escolha sua opcao: ");
@@ -336,6 +337,40 @@ void pesquisar_cardapio()
         }
     }
     printf("\nCardapio não encontrado!\n");
+    fclose(arquivo_cardapios);
+}
+
+void listar_cardapios()
+{
+    printf("=============================\n");
+    printf("       LISTAR CARDAPIOS      \n");
+    printf("=============================\n");
+    printf("\n");
+
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb");
+    if (arquivo_cardapios == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+
+    Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
+
+    while (fread(cardapio, sizeof(Cardapio), 1, arquivo_cardapios))
+    {
+        if (cardapio->status == 1)
+        {
+            char *entrada = buscar_receita(cardapio->entrada);
+            char *prato_principal = buscar_receita(cardapio->prato_principal);
+            char *sobremesa = buscar_receita(cardapio->sobremesa);
+            printf("\n");
+            printf("ID: %d\n", cardapio->id);
+            printf("Entrada: %s\n", entrada);
+            printf("Prato Principal: %s\n", prato_principal);
+            printf("Sobremesa: %s\n", sobremesa);
+        }
+    }
     fclose(arquivo_cardapios);
 }
 

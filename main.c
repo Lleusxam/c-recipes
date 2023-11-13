@@ -63,6 +63,8 @@ int main()
             case '4':
                 pesquisar_receita();
                 break;
+            case '5':
+                listar_receitas();
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;
@@ -87,6 +89,8 @@ int main()
             case '4':
                 pesquisar_autor();
                 break;
+            case '5':
+                listar_autores();
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;
@@ -111,6 +115,8 @@ int main()
             case '4':
                 pesquisar_cardapio();
                 break;
+            case '5':
+                listar_cardapios();
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;

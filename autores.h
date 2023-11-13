@@ -13,6 +13,7 @@ void cadastrar_autor();
 void editar_autor();
 void deletar_autor();
 void pesquisar_autor();
+void listar_autores();
 int existe_autor_id(int id);
 int contar_autores();
 void salvar_autor(Autor *autor);

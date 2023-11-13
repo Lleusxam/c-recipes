@@ -15,6 +15,7 @@ char menu_receitas()
     printf("|   2. Editar receita       |\n");
     printf("|   3. Deletar receita      |\n");
     printf("|   4. Pesquisar receita    |\n");
+    printf("|   5. Listar receitas      |\n");
     printf("|   0. Retornar             |\n");
     printf("=============================\n");
     printf("\n");
@@ -412,6 +413,41 @@ void pesquisar_receita()
     printf("\nReceita não encontrada!\n");
     fclose(arquivo_receitas);
 }
+
+void listar_receitas()
+{
+    printf("=============================\n");
+    printf("        LISTAR RECEITAS      \n");
+    printf("=============================\n");
+    printf("\n");
+
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        printf("ID: %d\n", receita->id);
+        printf("Nome: %s\n", receita->nome);
+        printf("Descricao: %s\n", receita->descricao);
+        printf("Porcoes: %d\n", receita->porcoes);
+        printf("Categoria: %s\n", receita->categoria);
+        printf("Status: %d\n", receita->status);
+        char *nome_autor = buscar_autor(receita->id_autor);
+        printf("Autor: %s\n", nome_autor);
+        printf("\n");
+    }
+
+    fclose(arquivo_receitas);
+}
+
+
 void salvar_receita(Receita *receita)
 {
     FILE *arquivo_receitas;
