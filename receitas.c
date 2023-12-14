@@ -16,6 +16,9 @@ char menu_receitas()
     printf("|   3. Deletar receita      |\n");
     printf("|   4. Pesquisar receita    |\n");
     printf("|   5. Listar receitas      |\n");
+    printf("|   6. Pesq. por nome       |\n");
+    printf("|   7. Pesq. por categoria  |\n");
+    printf("|   8. Pesq. por autor      |\n");
     printf("|   0. Retornar             |\n");
     printf("=============================\n");
     printf("\n");
@@ -510,4 +513,128 @@ int existe_receita_nome(char* nome) {
     fclose(arquivo_receitas);
     free(receita);
     return 0;
+}
+
+void pesquisar_receita_nome() {
+    printf("=============================\n");
+    printf("      PESQUISAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+    char nome[100];
+    printf("Digite o nome da receita que deseja pesquisar: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0;
+
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+    
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (strcmp(receita->nome, nome) == 0 && receita->status == 1)
+        {
+            char *nome_autor;    
+            printf("\n");
+            printf("Informações da Receita:\n");
+            printf("ID: %d\n", receita->id);
+            printf("Nome: %s\n", receita->nome);
+            printf("Descricao: %s\n", receita->descricao);
+            printf("Porcoes: %d\n", receita->porcoes);
+            printf("Categoria: %s\n", receita->categoria);
+            printf("Status: %d\n", receita->status);
+            nome_autor = buscar_autor(receita->id_autor);
+            printf("Autor: %s\n", nome_autor);
+            return;
+        }
+    }
+    printf("\nReceita não encontrada!\n");
+    fclose(arquivo_receitas);
+    free(receita);
+}
+
+void pesquisar_receita_categoria() {
+    printf("=============================\n");
+    printf("      PESQUISAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+    char categoria[50];
+    printf("Digite a categoria da receita que deseja pesquisar: ");
+    fgets(categoria, sizeof(categoria), stdin);
+    categoria[strlen(categoria) - 1] = 0;
+
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+    
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        if (strcmp(receita->categoria, categoria) == 0 && receita->status == 1)
+        {
+            char *nome_autor;    
+            printf("\n");
+            printf("Informações da Receita:\n");
+            printf("ID: %d\n", receita->id);
+            printf("Nome: %s\n", receita->nome);
+            printf("Descricao: %s\n", receita->descricao);
+            printf("Porcoes: %d\n", receita->porcoes);
+            printf("Categoria: %s\n", receita->categoria);
+            printf("Status: %d\n", receita->status);
+            nome_autor = buscar_autor(receita->id_autor);
+            printf("Autor: %s\n", nome_autor);
+        }
+    }
+    fclose(arquivo_receitas);
+    free(receita);
+}
+
+void pesquisar_receita_autor() {
+    printf("=============================\n");
+    printf("      PESQUISAR RECEITA      \n");
+    printf("=============================\n");
+    printf("\n");
+    char nome[100];
+    printf("Digite o nome do autor da receita que deseja pesquisar: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0;
+
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb");
+    if (arquivo_receitas == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+    
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+
+    while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
+    {
+        char *nome_autor = buscar_autor(receita->id_autor);
+        if (strcmp(nome_autor, nome) == 0 && receita->status == 1)
+        {
+            printf("\n");
+            printf("Informações da Receita:\n");
+            printf("ID: %d\n", receita->id);
+            printf("Nome: %s\n", receita->nome);
+            printf("Descricao: %s\n", receita->descricao);
+            printf("Porcoes: %d\n", receita->porcoes);
+            printf("Categoria: %s\n", receita->categoria);
+            printf("Status: %d\n", receita->status);
+            printf("Autor: %s\n", nome_autor);
+        }
+    }
+    fclose(arquivo_receitas);
+    free(receita);
 }

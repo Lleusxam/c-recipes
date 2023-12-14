@@ -65,6 +65,16 @@ int main()
                 break;
             case '5':
                 listar_receitas();
+                break;
+            case '6':
+                pesquisar_receita_nome();
+                break;
+            case '7':
+                pesquisar_receita_categoria();
+                break;
+            case '8':
+                pesquisar_receita_autor();
+                break;
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;

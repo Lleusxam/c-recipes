@@ -23,4 +23,7 @@ int contar_receitas();
 int existe_receita(int id);
 char* buscar_receita(int id);
 int existe_receita_nome(char* nome);
+void pesquisar_receita_nome(); 
+void pesquisar_receita_categoria();
+void pesquisar_receita_autor();
 #endif
