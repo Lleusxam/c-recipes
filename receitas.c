@@ -151,7 +151,7 @@ int existe_receita(int id)
     Receita *receita = (Receita *)malloc(sizeof(Receita));
     while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
     {
-        if (receita->id == id)
+        if (receita->id == id && receita->status == 1)
         {
             fclose(arquivo_receitas);
             free(receita);
@@ -394,7 +394,7 @@ void pesquisar_receita()
 
     while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
     {
-        if (receita->id == id)
+        if (receita->id == id && receita->status == 1)
         {
             char *nome_autor;    
             printf("\n");
@@ -433,6 +433,8 @@ void listar_receitas()
 
     while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
     {
+        if(receita->status == 1) 
+        {
         printf("ID: %d\n", receita->id);
         printf("Nome: %s\n", receita->nome);
         printf("Descricao: %s\n", receita->descricao);
@@ -441,7 +443,8 @@ void listar_receitas()
         printf("Status: %d\n", receita->status);
         char *nome_autor = buscar_autor(receita->id_autor);
         printf("Autor: %s\n", nome_autor);
-        printf("\n");
+        printf("\n");    
+        }
     }
 
     fclose(arquivo_receitas);

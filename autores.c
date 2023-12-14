@@ -60,7 +60,7 @@ int existe_autor_id(int id)
     Autor *autor = (Autor *)malloc(sizeof(Autor));
     while (fread(autor, sizeof(Autor), 1, arquivo_autores))
     {
-        if (autor->id == id)
+        if (autor->id == id && autor->status == 1)
         {
             fclose(arquivo_autores);
             free(autor);
@@ -346,7 +346,7 @@ void pesquisar_autor()
 
     while (fread(autor, sizeof(Autor), 1, arquivo_autores))
     {
-        if (autor->id == id)
+        if (autor->id == id && autor->status == 1)
         {
             printf("\n");
             printf("Nome: %s\n", autor->nome);
@@ -379,11 +379,15 @@ void listar_autores()
 
     while (fread(autor, sizeof(Autor), 1, arquivo_autores))
     {
-        printf("ID: %d\n", autor->id);
-        printf("Nome: %s\n", autor->nome);
-        printf("Telefone: %s\n", autor->telefone);
-        printf("Status: %d\n", autor->status);
-        printf("\n");
+        if (autor->status == 1)
+        {
+            printf("\n");
+            printf("ID: %d\n", autor->id);
+            printf("Nome: %s\n", autor->nome);
+            printf("Telefone: %s\n", autor->telefone);
+            printf("Status: %d\n", autor->status);
+            printf("\n");
+        }
     }
 
     fclose(arquivo_autores);

@@ -60,7 +60,7 @@ int existe_cardapio(int id)
     Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
     while (fread(cardapio, sizeof(Cardapio), 1, arquivo_cardapios))
     {
-        if (cardapio->id == id)
+        if (cardapio->id == id && cardapio->status == 1)
         {
             fclose(arquivo_cardapios);
             free(cardapio);
@@ -323,7 +323,7 @@ void pesquisar_cardapio()
 
     while (fread(cardapio, sizeof(Cardapio), 1, arquivo_cardapios))
     {
-        if (cardapio->id == id)
+        if (cardapio->id == id && cardapio->status == 1)
         {
             char *entrada = buscar_receita(cardapio->entrada);
             char *prato_principal = buscar_receita(cardapio->prato_principal);
