@@ -104,6 +104,15 @@ int main()
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;
+            case '6':
+                pesquisar_autor_nome();
+                break;
+            case '7':
+                pesquisar_autor_telefone();
+                break;
+            case '8':
+                pesquisar_autor_email();
+                break;
             default:
                 printf("Opcao invalida\n");
                 limpar_buffer();
@@ -127,6 +136,10 @@ int main()
                 break;
             case '5':
                 listar_cardapios();
+                break;
+            case '6':
+                pesquisar_cardapio_nome();
+                break;
             case '0':
                 printf("Voltando ao menu principal...\n");
                 break;

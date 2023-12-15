@@ -15,6 +15,7 @@ char menu_cardapio()
     printf("|   3. Deletar cardapio      |\n");
     printf("|   4. Pesquisar cardapio    |\n");
     printf("|   5. Listar cardapios      |\n");
+    printf("|   6. Pesquisar por nome    |\n");
     printf("|   0. Retornar              |\n");
     printf("=============================\n");
     printf("\n");
@@ -81,6 +82,7 @@ void cadastrar_cardapio()
     int entrada;
     int prato_principal;
     int sobremesa;
+    char nome[100];
     int aux;
     Cardapio novo_cardapio;
 
@@ -113,9 +115,15 @@ void cadastrar_cardapio()
 
     aux = existe_receita(sobremesa);
 
-    if (aux == 0)
+    printf("Digite um nome para identificar o cardapio: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
+    uppercase(nome);
+
+    aux = existe_cardapio_nome(nome);
+    if (aux == 1)
     {
-        printf("\nA receita não existe.!\n");
+        printf("\nJá existe um cardapio com esse nome!\n");
         return;
     }
 
@@ -124,6 +132,7 @@ void cadastrar_cardapio()
     novo_cardapio.entrada = entrada;
     novo_cardapio.prato_principal = prato_principal;
     novo_cardapio.sobremesa = sobremesa;
+    strncpy(novo_cardapio.nome, nome, sizeof(novo_cardapio.nome));
     novo_cardapio.status = 1;
 
     salvar_cardapio(&novo_cardapio);
@@ -168,6 +177,7 @@ void editar_cardapio()
             printf("\n1. Entrada");
             printf("\n2. Prato Principal");
             printf("\n3. Sobremesa");
+            printf("\n4. Nome");
             printf("\n0. Retornar");
             printf("\nDigite sua escolha: ");
             int opcao;
@@ -222,6 +232,22 @@ void editar_cardapio()
                 if (aux == 0)
                 {
                     printf("\nA receita não existe.!\n");
+                    return;
+                }
+
+                break;
+            }
+            case 4:
+            {
+                printf("Digite um novo nome para identificar o cardapio: ");
+                fgets(cardapio.nome, sizeof(cardapio.nome), stdin);
+                cardapio.nome[strlen(cardapio.nome) - 1] = 0; // Remove o \n do final da string
+                uppercase(cardapio.nome);
+
+                aux = existe_cardapio_nome(cardapio.nome);
+                if (aux == 1)
+                {
+                    printf("\nJá existe um cardapio com esse nome!\n");
                     return;
                 }
 
@@ -366,6 +392,7 @@ void listar_cardapios()
             char *sobremesa = buscar_receita(cardapio->sobremesa);
             printf("\n");
             printf("ID: %d\n", cardapio->id);
+            printf("Nome: %s\n", cardapio->nome);
             printf("Entrada: %s\n", entrada);
             printf("Prato Principal: %s\n", prato_principal);
             printf("Sobremesa: %s\n", sobremesa);
@@ -380,5 +407,73 @@ void salvar_cardapio(Cardapio *cardapio)
     arquivo_cardapios = fopen("cardapios.dat", "ab");
     fwrite(cardapio, sizeof(Cardapio), 1, arquivo_cardapios);
     fclose(arquivo_cardapios);
+}
+
+
+
+int existe_cardapio_nome(char *nome)
+{
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb");
+    if (arquivo_cardapios == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return 0;
+    }
+
+    Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
+
+    while (fread(cardapio, sizeof(Cardapio), 1, arquivo_cardapios))
+    {
+        if (strcmp(cardapio->nome, nome) == 0 && cardapio->status == 1)
+        {
+            fclose(arquivo_cardapios);
+            free(cardapio);
+            return 1;
+        }
+    }
+    fclose(arquivo_cardapios);
     free(cardapio);
+    return 0;
+}
+
+void pesquisar_cardapio_nome()
+{
+    printf("=============================\n");
+    printf("  PESQUISAR CARDAPIO POR NOME\n");
+    printf("=============================\n");
+    printf("\n");
+    char nome[100];
+    printf("Digite o nome do cardápio que deseja pesquisar: ");
+    fgets(nome, sizeof(nome), stdin);
+    nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
+    uppercase(nome);
+
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb");
+    if (arquivo_cardapios == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
+
+    Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
+
+    while (fread(cardapio, sizeof(Cardapio), 1, arquivo_cardapios))
+    {
+        if (strcmp(cardapio->nome, nome) == 0 && cardapio->status == 1)
+        {
+            char *entrada = buscar_receita(cardapio->entrada);
+            char *prato_principal = buscar_receita(cardapio->prato_principal);
+            char *sobremesa = buscar_receita(cardapio->sobremesa);
+            printf("\n");
+            printf("ID: %d\n", cardapio->id);
+            printf("Entrada: %s\n", entrada);
+            printf("Prato Principal: %s\n", prato_principal);
+            printf("Sobremesa: %s\n", sobremesa);
+            return;
+        }
+    }
+    printf("\nCardapio não encontrado!\n");
+    fclose(arquivo_cardapios);
 }

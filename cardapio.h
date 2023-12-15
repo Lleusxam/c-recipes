@@ -7,6 +7,7 @@ typedef struct Cardapio
     int entrada;
     int prato_principal;
     int sobremesa;
+    char nome[100];
     int status;
 } Cardapio;
 
@@ -18,4 +19,6 @@ void pesquisar_cardapio();
 void listar_cardapios();
 void salvar_cardapio(Cardapio *cardapio);
 int existe_cardapio(int id);
+int existe_cardapio_nome(char* nome);
+void pesquisar_cardapio_nome();
 #endif

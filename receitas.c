@@ -68,6 +68,7 @@ void cadastrar_receita()
     printf("Nome da receita: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
+    uppercase(nome); // Converte a string para maiúscula
 
     aux = valida_nome(nome);
     if (aux == 0)
@@ -77,6 +78,7 @@ void cadastrar_receita()
     }
 
     aux = existe_receita_nome(nome);
+
     if (aux == 1)
     {
         printf("Nome já cadastrado!\n");
@@ -86,6 +88,7 @@ void cadastrar_receita()
     printf("Descricao da receita: ");
     fgets(descricao, sizeof(descricao), stdin);
     descricao[strlen(descricao) - 1] = 0;
+    uppercase(descricao);
 
     if (strlen(descricao) == 0 || strlen(descricao) > 500)
     {
@@ -107,6 +110,7 @@ void cadastrar_receita()
     printf("Categoria da receita: ");
     fgets(categoria, sizeof(categoria), stdin);
     categoria[strlen(categoria) - 1] = 0;
+    uppercase(categoria);
 
     aux = valida_nome(categoria);
     
@@ -219,6 +223,7 @@ void editar_receita()
                 printf("Digite o novo nome: ");
                 fgets(nome, sizeof(nome), stdin);
                 nome[strlen(nome) - 1] = 0;
+                uppercase(nome);
 
                 int aux = valida_nome(nome);
                 if (aux == 0)
@@ -244,6 +249,7 @@ void editar_receita()
                 printf("Digite a nova descricao: ");
                 fgets(descricao, sizeof(descricao), stdin);
                 descricao[strlen(descricao) - 1] = 0;
+                uppercase(descricao);
 
                 if (strlen(descricao) == 0 || strlen(descricao) > 500)
                 {
@@ -276,6 +282,7 @@ void editar_receita()
                 printf("Digite a nova categoria: ");
                 fgets(categoria, sizeof(categoria), stdin);
                 categoria[strlen(categoria) - 1] = 0;
+                uppercase(categoria);
 
                 int aux = valida_nome(categoria);
                 if (aux == 0 || strlen(categoria) > 50)
@@ -495,7 +502,6 @@ int existe_receita_nome(char* nome) {
     arquivo_receitas = fopen("receitas.dat", "rb");
     if (arquivo_receitas == NULL)
     {
-        perror("Erro ao abrir o arquivo para leitura");
         return 0;
     }
 
@@ -517,13 +523,14 @@ int existe_receita_nome(char* nome) {
 
 void pesquisar_receita_nome() {
     printf("=============================\n");
-    printf("      PESQUISAR RECEITA      \n");
+    printf(" PESQUISAR RECEITA POR NOME  \n");
     printf("=============================\n");
     printf("\n");
     char nome[100];
     printf("Digite o nome da receita que deseja pesquisar: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0;
+    uppercase(nome);
 
     FILE *arquivo_receitas;
     arquivo_receitas = fopen("receitas.dat", "rb");
@@ -560,13 +567,14 @@ void pesquisar_receita_nome() {
 
 void pesquisar_receita_categoria() {
     printf("=============================\n");
-    printf("      PESQUISAR RECEITA      \n");
+    printf("PESQUISAR RECEITA POR CATEGORIA\n");
     printf("=============================\n");
     printf("\n");
     char categoria[50];
     printf("Digite a categoria da receita que deseja pesquisar: ");
     fgets(categoria, sizeof(categoria), stdin);
     categoria[strlen(categoria) - 1] = 0;
+    uppercase(categoria);
 
     FILE *arquivo_receitas;
     arquivo_receitas = fopen("receitas.dat", "rb");
@@ -601,13 +609,15 @@ void pesquisar_receita_categoria() {
 
 void pesquisar_receita_autor() {
     printf("=============================\n");
-    printf("      PESQUISAR RECEITA      \n");
+    printf("PESQUISAR RECEITA POR AUTOR\n");
     printf("=============================\n");
     printf("\n");
-    char nome[100];
-    printf("Digite o nome do autor da receita que deseja pesquisar: ");
-    fgets(nome, sizeof(nome), stdin);
-    nome[strlen(nome) - 1] = 0;
+    char nome_autor[50];
+    int id_autor;
+    printf("Digite o nome do autor que deseja pesquisar: ");
+    fgets(nome_autor, sizeof(nome_autor), stdin);
+    nome_autor[strlen(nome_autor) - 1] = 0;
+    uppercase(nome_autor);
 
     FILE *arquivo_receitas;
     arquivo_receitas = fopen("receitas.dat", "rb");
@@ -617,12 +627,29 @@ void pesquisar_receita_autor() {
         return;
     }
     
-    Receita *receita = (Receita *)malloc(sizeof(Receita));
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "rb");
+    if (arquivo_autores == NULL)
+    {
+        perror("Erro ao abrir o arquivo para leitura");
+        return;
+    }
 
+    Autor *autor = (Autor *)malloc(sizeof(Autor));
+
+    while (fread(autor, sizeof(Autor), 1, arquivo_autores))
+    {
+        if (strcmp(autor->nome, nome_autor) == 0)
+        {
+            id_autor = autor->id;
+        }
+    }
+
+    Receita *receita = (Receita *)malloc(sizeof(Receita));
+    int autor_encontrado = 0;
     while (fread(receita, sizeof(Receita), 1, arquivo_receitas))
     {
-        char *nome_autor = buscar_autor(receita->id_autor);
-        if (strcmp(nome_autor, nome) == 0 && receita->status == 1)
+        if(receita->id_autor == id_autor && receita->status == 1)
         {
             printf("\n");
             printf("Informações da Receita:\n");
@@ -633,8 +660,15 @@ void pesquisar_receita_autor() {
             printf("Categoria: %s\n", receita->categoria);
             printf("Status: %d\n", receita->status);
             printf("Autor: %s\n", nome_autor);
+            autor_encontrado = 1;
         }
+    }
+    if (autor_encontrado == 0)
+    {
+        printf("\nAutor não encontrado ou não possui receitas cadastradas.\n");
     }
     fclose(arquivo_receitas);
     free(receita);
+    fclose(arquivo_autores);
+    free(autor);
 }
