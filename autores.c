@@ -184,6 +184,18 @@ void editar_autor()
     printf("\n");
     int id;
     int aux;
+
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para editar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
+
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
     limpar_buffer();
@@ -195,13 +207,6 @@ void editar_autor()
         return;
     }
 
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "r+b");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura e escrita");
-        return;
-    }
 
     Autor autor;
     while (fread(&autor, sizeof(Autor), 1, arquivo_autores))
@@ -334,6 +339,17 @@ void deletar_autor()
     printf("       DELETAR AUTOR         \n");
     printf("=============================\n");
     printf("\n");
+
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para deletar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
     limpar_buffer();
@@ -342,14 +358,6 @@ void deletar_autor()
     if (encontrada == 0)
     {
         printf("\nAutor não encontrado!\n");
-        return;
-    }
-
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "r+b");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura e escrita");
         return;
     }
 
@@ -377,21 +385,24 @@ void pesquisar_autor()
     printf("=============================\n");
     printf("\n");
 
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     int id;
     printf("Digite o ID do autor: ");
     scanf("%d", &id);
     limpar_buffer();
 
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "rb");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
-
     Autor *autor = (Autor *)malloc(sizeof(Autor));
 
+    
     while (fread(autor, sizeof(Autor), 1, arquivo_autores))
     {
         if (autor->id == id && autor->status == 1)
@@ -400,7 +411,6 @@ void pesquisar_autor()
             printf("Nome: %s\n", autor->nome);
             printf("Telefone: %s\n", autor->telefone);
             printf("Email: %s\n", autor->email);
-            printf("Status %d\n", autor->status);
             return;
         }
     }
@@ -416,16 +426,19 @@ void listar_autores()
     printf("=============================\n");
     printf("\n");
 
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "rb");
+   FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
     if (arquivo_autores == NULL)
     {
-        perror("Erro ao abrir o arquivo para leitura");
+        printf("Não há autores cadastrados para listar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
         return;
     }
 
     Autor *autor = (Autor *)malloc(sizeof(Autor));
 
+    int autor_encontrado = 0;
     while (fread(autor, sizeof(Autor), 1, arquivo_autores))
     {
         if (autor->status == 1)
@@ -435,9 +448,12 @@ void listar_autores()
             printf("Nome: %s\n", autor->nome);
             printf("Telefone: %s\n", autor->telefone);
             printf("Email: %s\n", autor->email);
-            printf("Status: %d\n", autor->status);
             printf("\n");
+            autor_encontrado = 1;
         }
+    }
+    if(!autor_encontrado) {
+        printf("Não foram encontrados autores.\n");
     }
 
     fclose(arquivo_autores);
@@ -558,19 +574,21 @@ void pesquisar_autor_nome()
     printf("=============================\n");
     printf("\n");
 
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     char nome[50];
     printf("Digite o nome do autor: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0;
     uppercase(nome);
-
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "rb");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
 
     Autor *autor = (Autor *)malloc(sizeof(Autor));
 
@@ -582,7 +600,6 @@ void pesquisar_autor_nome()
             printf("ID: %d\n", autor->id);
             printf("Nome: %s\n", autor->nome);
             printf("Telefone: %s\n", autor->telefone);
-            printf("Status: %d\n", autor->status);
             printf("\n");
             return;
         }
@@ -599,18 +616,20 @@ void pesquisar_autor_telefone()
     printf("=============================\n");
     printf("\n");
 
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     char telefone[15];
     printf("Digite o telefone do autor: ");
     fgets(telefone, sizeof(telefone), stdin);
     telefone[strlen(telefone) - 1] = 0;
-
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "rb");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
 
     Autor *autor = (Autor *)malloc(sizeof(Autor));
 
@@ -622,7 +641,6 @@ void pesquisar_autor_telefone()
             printf("ID: %d\n", autor->id);
             printf("Nome: %s\n", autor->nome);
             printf("Telefone: %s\n", autor->telefone);
-            printf("Status: %d\n", autor->status);
             printf("\n");
             return;
         }
@@ -639,18 +657,20 @@ void pesquisar_autor_email()
     printf("=============================\n");
     printf("\n");
 
+    FILE *arquivo_autores;
+    arquivo_autores = fopen("autores.dat", "r+b");
+    if (arquivo_autores == NULL)
+    {
+        printf("Não há autores cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     char email[50];
     printf("Digite o email do autor: ");
     fgets(email, sizeof(email), stdin);
     email[strlen(email) - 1] = 0;
-
-    FILE *arquivo_autores;
-    arquivo_autores = fopen("autores.dat", "rb");
-    if (arquivo_autores == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
 
     Autor *autor = (Autor *)malloc(sizeof(Autor));
 
@@ -662,7 +682,6 @@ void pesquisar_autor_email()
             printf("ID: %d\n", autor->id);
             printf("Nome: %s\n", autor->nome);
             printf("Telefone: %s\n", autor->telefone);
-            printf("Status: %d\n", autor->status);
             printf("\n");
             return;
         }

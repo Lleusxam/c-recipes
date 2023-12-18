@@ -86,6 +86,16 @@ void cadastrar_cardapio()
     int aux;
     Cardapio novo_cardapio;
 
+    FILE *arquivo_receitas;
+    arquivo_receitas = fopen("receitas.dat", "rb+");
+    if (arquivo_receitas == NULL)
+    {
+        printf("Não há receitas cadastradas para criar um cardápio.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     printf("Digite o ID da receita que será a Entrada: ");
     scanf("%d", &entrada);
     limpar_buffer();
@@ -149,6 +159,17 @@ void editar_cardapio()
     printf("\n");
     int id;
     int aux;
+
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb+");
+    if (arquivo_cardapios == NULL)
+    {
+        printf("Não há cardápios cadastrados para editar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     printf("Digite o ID do cardapio que deseja editar: ");
     scanf("%d", &id);
     limpar_buffer();
@@ -157,14 +178,6 @@ void editar_cardapio()
     if (encontrada == 0)
     {
         printf("\nCardapio não encontrado!\n");
-        return;
-    }
-
-    FILE *arquivo_cardapios;
-    arquivo_cardapios = fopen("cardapios.dat", "rb+");
-    if (arquivo_cardapios == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
         return;
     }
 
@@ -288,6 +301,16 @@ void deletar_cardapio()
     printf("=============================\n");
     printf("\n");
 
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb+");
+    if (arquivo_cardapios == NULL)
+    {
+        printf("Não há cardápios cadastrados para deletar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     printf("Digite o ID do cardápio que deseja deletar: ");
     scanf("%d", &id);
     limpar_buffer();
@@ -297,14 +320,6 @@ void deletar_cardapio()
     if (encontrada == 0)
     {
         printf("\nCardapio não encontrado!\n");
-        return;
-    }
-
-    FILE *arquivo_cardapios;
-    arquivo_cardapios = fopen("cardapios.dat", "rb+");
-    if (arquivo_cardapios == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
         return;
     }
 
@@ -333,17 +348,19 @@ void pesquisar_cardapio()
     printf("\n");
     int id;
 
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb+");
+    if (arquivo_cardapios == NULL)
+    {
+        printf("Não há cardápios cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     printf("Digite o ID do cardápio que deseja pesquisar: ");
     scanf("%d", &id);
     limpar_buffer();
-
-    FILE *arquivo_cardapios;
-    arquivo_cardapios = fopen("cardapios.dat", "rb");
-    if (arquivo_cardapios == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
 
     Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
 
@@ -374,10 +391,12 @@ void listar_cardapios()
     printf("\n");
 
     FILE *arquivo_cardapios;
-    arquivo_cardapios = fopen("cardapios.dat", "rb");
+    arquivo_cardapios = fopen("cardapios.dat", "rb+");
     if (arquivo_cardapios == NULL)
     {
-        perror("Erro ao abrir o arquivo para leitura");
+        printf("Não há cardápios cadastrados para listar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
         return;
     }
 
@@ -408,7 +427,6 @@ void salvar_cardapio(Cardapio *cardapio)
     fwrite(cardapio, sizeof(Cardapio), 1, arquivo_cardapios);
     fclose(arquivo_cardapios);
 }
-
 
 
 int existe_cardapio_nome(char *nome)
@@ -443,19 +461,22 @@ void pesquisar_cardapio_nome()
     printf("  PESQUISAR CARDAPIO POR NOME\n");
     printf("=============================\n");
     printf("\n");
+
+    FILE *arquivo_cardapios;
+    arquivo_cardapios = fopen("cardapios.dat", "rb+");
+    if (arquivo_cardapios == NULL)
+    {
+        printf("Não há cardápios cadastrados para pesquisar.\n");
+        printf("Pressione ENTER para continuar\n");
+        getchar();
+        return;
+    }
+
     char nome[100];
     printf("Digite o nome do cardápio que deseja pesquisar: ");
     fgets(nome, sizeof(nome), stdin);
     nome[strlen(nome) - 1] = 0; // Remove o \n do final da string
     uppercase(nome);
-
-    FILE *arquivo_cardapios;
-    arquivo_cardapios = fopen("cardapios.dat", "rb");
-    if (arquivo_cardapios == NULL)
-    {
-        perror("Erro ao abrir o arquivo para leitura");
-        return;
-    }
 
     Cardapio *cardapio = (Cardapio *)malloc(sizeof(Cardapio));
 
